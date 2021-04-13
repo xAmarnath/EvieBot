@@ -8,7 +8,7 @@ from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-captcha = db.captcha
+captcha = db.captch
 
 
 from telethon.tl.types import ChatBannedRights
@@ -194,7 +194,9 @@ async def t(event):
                 },
                 {"$set": {"time": time}},
             )
-       except Exception as e:
-         print(e)
+          return
+ captcha.insert_one(
+        {"id": event.sender_id, "type": 'text', "time": time}
+    )
             
  
