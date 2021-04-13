@@ -110,24 +110,23 @@ async def h(event):
   image_file = "./"+ "captcha.png"
   image_captcha.write(a, image_file)
   keyboard = [
-            Button.inline(
+            [Button.inline(
                 f"{a}",
                 data='pip'
             ),
             Button.inline(
                 f"{b}",
                 data='exec'
-            ),
-            Button.inline(
+            ),],
+            [Button.inline(
                 f"{c}",
                 data='sli'
             ),
             Button.inline(
                 f"{d}",
                 data='paku'
-            )
+            )]
         ]
-  shuffle(keyboard)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
  except Exception as e:
   printe(e)
