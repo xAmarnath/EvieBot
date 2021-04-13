@@ -88,6 +88,7 @@ async def deedi(event):
         return await event.reply("Ask the chat creator to do it!")
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
+  await event.delete()
   await tbot(EditBannedRequest(event.chat_id, user, BANNED_RIGHTS))
   await event.reply("Banned User!")
 
@@ -447,5 +448,6 @@ Admin commands:
 - /kick: Kick a user.
 - /dkick: Kick a user by reply, and delete their message.
 - /skick: Silently kick a user, and delete your message
+**Now Supports Anonymous Admins Also**
 """
 
