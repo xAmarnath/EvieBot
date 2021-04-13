@@ -78,6 +78,7 @@ async def _(event):
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
+ try:
   if not event.user_joined:
           return
   user_id = event.user_id
@@ -94,6 +95,8 @@ async def _(event):
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = buttons= Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
+ except Exception as e:
+  print(e)
  
 @register(pattern="^/start captcha$")
 async def h(event):
