@@ -22,7 +22,7 @@ async def _(event):
   
   if not event.user_joined:
           return
-  user_id = event.sender_id
+  user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
        if not event.chat_id == c["id"]:
