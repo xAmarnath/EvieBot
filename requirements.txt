@@ -23,3 +23,4 @@ sentry-sdk
 screenshotapi
 py-tgcalls
 pyrogram
+captcha
