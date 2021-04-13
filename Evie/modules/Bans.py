@@ -68,7 +68,8 @@ async def anonymous(event):
   await event.reply(text, buttons=buttons)
   @tbot.on(events.CallbackQuery(pattern=r"adata"))
   async def cbot(event):
-    return event.sender_id
+     await event.answer("Verified Adminship")
+     id = event.sender_id
 
 
 
