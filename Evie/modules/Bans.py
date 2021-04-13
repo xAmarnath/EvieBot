@@ -77,6 +77,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   user, args = await get_user(event)
+  await anonymous(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
