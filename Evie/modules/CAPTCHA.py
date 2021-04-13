@@ -102,10 +102,10 @@ async def _(event):
 @register(pattern="^/start captcha$")
 async def h(event):
  try:
-  a = gen_captcha(6)
-  b = gen_captcha(6)
-  c = gen_captcha(6)
-  d = gen_captcha(6)
+  a = gen_captcha(8)
+  b = gen_captcha(8)
+  c = gen_captcha(8)
+  d = gen_captcha(8)
   image = image_captcha.generate_image(a)
   image_file = "./"+ "captcha.png"
   image_captcha.write(a, image_file)
