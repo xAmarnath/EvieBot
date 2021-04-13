@@ -8,24 +8,21 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.captcha
-"""
+
 async def kick_restricted_after_delay(delay, event, user_id):
-    
     await asyncio.sleep(delay)
     join_message = event.get_reply_message()
-    group_chat = event.chat_id
     user_id = user_id
     await join_message.delete()
     await event.delete()
-    await _ban_restricted_user_until_date(group_chat, user_id, duration=delay).
-"""
-
-
+    await tbot.kick_participant(event.chat_id, user_id)
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
+  
   if not event.user_joined:
           return
+  user_id = event.sender_id
   chats = captcha.find({})
   for c in chats:
        if not event.chat_id == c["id"]:
@@ -60,7 +57,10 @@ async def _(event):
             text,
             buttons=keyboard
         )
-  
+  WELCOME_DELAY_KICK_SEC = 20
+  asyncio.create_task(kick_restricted_after_delay(
+            WELCOME_DELAY_KICK_SEC, event, user_id))
+  await asyncio.sleep(0.5)
 
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
