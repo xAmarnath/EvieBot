@@ -18,7 +18,7 @@ MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 def get_chat(id):
-    return gbanned.find_one({"id": id})
+    return captcha.find_one({"id": id})
 
 async def kick_restricted_after_delay(delay, event, user_id):
     await asyncio.sleep(delay)
