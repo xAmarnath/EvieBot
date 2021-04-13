@@ -62,10 +62,8 @@ async def extract_time(message, time_val):
 @register(pattern="^/hi ?(.*)")
 async def anonymous(event):
   k = telethon.tl.custom.participantpermissions.ParticipantPermissions(event.chat_id, event.sender_id)
-  if not k.anonymous:
-     await event.reply(f'{event.sender_id}')
-  else:
-   print(696969)
+  if k.anonymous:
+     await event.reply(f'lel')
  
 
 
