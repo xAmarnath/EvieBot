@@ -174,7 +174,7 @@ async def cbot(event):
 @register(pattern="^/captchakicktime ?(.*)")
 async def t(event):
  try:
-  time = int(event.pattern_match.group(1)
+  time = int(event.pattern_match.group(1))
  except:
   return await event.reply("Please Specify in Seconds **For Now**")
  if len(time) > 4:
