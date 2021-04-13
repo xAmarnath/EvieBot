@@ -11,9 +11,7 @@ captcha = db.captcha
 
 async def kick_restricted_after_delay(delay, event, user_id):
     await asyncio.sleep(delay)
-    join_message = event.get_reply_message()
     user_id = user_id
-    await join_message.delete()
     await event.delete()
     await tbot.kick_participant(event.chat_id, user_id)
 
