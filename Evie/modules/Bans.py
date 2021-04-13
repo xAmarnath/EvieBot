@@ -6,6 +6,7 @@ from telethon import events
 import time
 from telethon.tl.functions.users import GetFullUserRequest
 import telethon
+from telethon import Button
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
