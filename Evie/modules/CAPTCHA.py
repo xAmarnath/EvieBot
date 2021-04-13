@@ -84,8 +84,6 @@ async def _(event):
   user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
-       if not event.chat_id == c["id"]:
-          return
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
