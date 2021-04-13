@@ -9,15 +9,25 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.captcha
 
+WELCOME_DELAY_KICK_SEC = 20
+
+from telethon.tl.types import ChatBannedRights
+from telethon.tl.functions.channels import EditBannedRequest
+
+MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
+UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
+
 async def kick_restricted_after_delay(delay, event, user_id):
     await asyncio.sleep(delay)
+    k = await tbot.get_permissions(event.chat_id, user_id)
+    if not k.is_banned:
+      return
     user_id = user_id
     await event.delete()
     await tbot.kick_participant(event.chat_id, user_id)
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
-  
   if not event.user_joined:
           return
   user_id = event.user_id
@@ -55,7 +65,7 @@ async def _(event):
             text,
             buttons=keyboard
         )
-  WELCOME_DELAY_KICK_SEC = 20
+  await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
   await asyncio.sleep(0.5)
@@ -156,6 +166,7 @@ async def cbot(event):
         await event.answer("You aren't the person whom should be verified.")
         return
     await event.answer("Verified Successfully ✅")
+    await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
     await event.edit(buttons=None)
   
   
