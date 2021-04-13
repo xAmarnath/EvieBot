@@ -59,16 +59,16 @@ async def extract_time(message, time_val):
         )
         return
 
-@tbot.on(events.NewMessage(pattern="^[!/]hi ?(.*)"))
+
 async def anonymous(event):
-  if not event.from_id == None:
-    return
+  if event.from_id == None:
+    return event.sender_id
   buttons = Button.inline("Click to prove admin", data="adata")
   text = "It looks like you're anonymous. Tap this button to confirm your identity."
   await event.reply(text, buttons=buttons)
   @tbot.on(events.CallbackQuery(pattern=r"adata"))
   async def cbot(event):
-    await event.reply(f'{event.sender_id}')
+    return event.sender_id
 
 
 
@@ -76,9 +76,10 @@ async def anonymous(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  sender_id = await anonymous(event)
   user, args = await get_user(event)
-  if not event.sender_id == OWNER_ID:
-    if not await is_admin(event, event.sender_id):
+  if not sender_id == OWNER_ID:
+    if not await is_admin(event, sender_id):
        return await event.reply("Only Admins can execute this command!")
     if await is_admin(event, user.id):
         return await event.reply("Yeah lets start banning admins!")
