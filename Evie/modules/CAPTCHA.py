@@ -76,6 +76,28 @@ async def _(event):
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
 
+@tbot.on(events.ChatAction())  # pylint:disable=E0602
+async def _(event):
+  if not event.user_joined:
+          return
+  user_id = event.user_id
+  chats = captcha.find({})
+  for c in chats:
+       if not event.chat_id == c["id"]:
+          return
+       if event.chat_id == c["id"]:
+          type = c["type"]
+          time = c["time"]
+  if not type == "text":
+     return
+  await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  buttons = buttons= Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
+  await event.reply(text, buttons=buttons)
+ 
+@register(pattern="^/start captcha$")
+async def h(event):
+ await event.reply("Hemlo")
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
