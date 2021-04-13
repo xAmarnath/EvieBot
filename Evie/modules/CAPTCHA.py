@@ -110,20 +110,20 @@ async def h(event):
  image_captcha.write(a, image_file)
  keyboard = [
             Button.inline(
-                f"a",
-                data=f'pep-{a_user.id}'
+                f"{a}",
+                data='pip'
             ),
             Button.inline(
-                f"b",
-                data=f'pro-{a_user.id}'
+                f"{b}",
+                data='exec'
             ),
             Button.inline(
-                f"c",
-                data=f"fk-{a_user.id}"
+                f"{c}",
+                data='sli'
             ),
             Button.inline(
-                f"d",
-                data=f'yu-{a_user.id}'
+                f"{d}",
+                data='paku'
             )
         ]
  shuffle(keyboard)
