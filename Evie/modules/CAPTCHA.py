@@ -1,7 +1,10 @@
 from Evie import tbot, CMD_HELP, MONGO_DB_URI
 import os, asyncio
 from telethon import Button, events
+from Evie.function import gen_captcha
 from Evie.events import register
+from captcha.image import ImageCaptcha
+image_captcha = ImageCaptcha(width = 800, height = 540)
 from random import shuffle
 from pyrogram import emoji
 from pymongo import MongoClient
@@ -98,7 +101,34 @@ async def _(event):
  
 @register(pattern="^/start captcha$")
 async def h(event):
- await event.reply("Hemlo")
+ a = gen_captcha(6)
+ b = gen_captcha(6)
+ c = gen_captcha(6)
+ d = gen_captcha(6)
+ image = image_captcha.generate_image(a)
+ image_file = "./"+ "captcha.png"
+ image_captcha.write(a, image_file)
+ keyboard = [
+            Button.inline(
+                f"a",
+                data=f'pep-{a_user.id}'
+            ),
+            Button.inline(
+                f"b",
+                data=f'pro-{a_user.id}'
+            ),
+            Button.inline(
+                f"c",
+                data=f"fk-{a_user.id}"
+            ),
+            Button.inline(
+                f"d",
+                data=f'yu-{a_user.id}'
+            )
+        ]
+ shuffle(keyboard)
+ await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=buttons)
+
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
