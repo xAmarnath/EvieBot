@@ -206,7 +206,7 @@ async def t(event):
 @register(pattern="^/captchamode ?(.*)")
 async def t(event):
  arg = event.pattern_match.group(1)
- if not arg == "button" or not arg == "text" or not arg == "math":
+ if not arg == "button" and not arg == "text" and not arg == "math":
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/math/text")
  type = arg
  chats = captcha.find({})
