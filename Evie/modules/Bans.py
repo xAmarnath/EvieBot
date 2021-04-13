@@ -59,13 +59,11 @@ async def extract_time(message, time_val):
         )
         return
 
-@register(pattern="^/hi ?(.*)")
+@tbot.on(events.NewMessage(pattern="^[!/]hi ?(.*)"))
 async def anonymous(event):
-  if not event.peer_id.channel_id == event.chat_id:
-    return
   if not event.from_id == None:
     return
-  buttons = Button.inline("Click to prove admin", data='adata')
+  buttons = Button.inline("Click to prove admin", data="adata")
   text = "It looks like you're anonymous. Tap this button to confirm your identity."
   await event.reply(text, buttons=buttons)
    
