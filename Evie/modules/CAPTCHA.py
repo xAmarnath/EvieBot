@@ -17,6 +17,9 @@ from telethon.tl.functions.channels import EditBannedRequest
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
+def get_chat(id):
+    return gbanned.find_one({"id": id})
+
 async def kick_restricted_after_delay(delay, event, user_id):
     await asyncio.sleep(delay)
     k = await tbot.get_permissions(event.chat_id, user_id)
@@ -177,25 +180,21 @@ async def t(event):
   time = int(event.pattern_match.group(1))
  except:
   return await event.reply("Please Specify in Seconds **For Now**")
- if len(time) > 4:
-  return await event.reply("Nada")
- try:
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-  if type:
-   captcha.delete_one({"id": event.chat_id})
-   captcha.insert_one(
-        {"id": event.chat_id, "type": 'button', "time": time}
-     )
-  else:
-   captcha.insert_one(
-        {"id": event.chat_id, "type": 'button', "time": time}
-    )
-  await event.reply(f"Welcome kick time has been set to {time} seconds.")
- except Exception as e:
-   await event.reply(f"{e}")
-
-
-
+ chats = captcha.find({})
+ for c in chats:
+      if event.chat_id == c["id"]:
+       try:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                },
+                {"$set": {"time": time}},
+            )
+       except Exception as e:
+         print(e)
+            
+ 
