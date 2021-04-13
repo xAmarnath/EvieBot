@@ -1,4 +1,4 @@
-from telethon import Button
+from telethon import Button, events
 
 
 @register(pattern="^/ano")
