@@ -192,6 +192,7 @@ async def t(event):
   captcha.insert_one(
         {"id": event.chat_id, "type": 'button', "time": time}
     )
+ await event.reply(f"Welcome kick time has been set to {time} seconds.")
 
 
 
