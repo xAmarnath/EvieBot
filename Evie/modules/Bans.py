@@ -61,7 +61,7 @@ async def extract_time(message, time_val):
 
 
 async def anonymous(event):
-  if event.from_id == None:
+  if not event.from_id == None:
     return event.sender_id
   buttons = Button.inline("Click to prove admin", data="adata")
   text = "It looks like you're anonymous. Tap this button to confirm your identity."
