@@ -70,9 +70,10 @@ async def anonymous(event):
   
 @tbot.on(events.CallbackQuery(pattern=r"adata"))
 async def deedi(porn):
-async def cbot(event):
-     sender_id = porn.sender_id
-     print(sender_id)
+  sender_id = porn.sender_id
+  print(sender_id)
+  async def cbot(event):
+      print(0)
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
