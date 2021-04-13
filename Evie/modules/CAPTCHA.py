@@ -71,9 +71,10 @@ async def _(event):
         )
   WELCOME_DELAY_KICK_SEC = time
   await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
-  asyncio.create_task(kick_restricted_after_delay(
+  if not time == 0:
+    asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
-  await asyncio.sleep(0.5)
+    await asyncio.sleep(0.5)
 
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
@@ -202,3 +203,32 @@ async def t(event):
   print(e)
             
  
+@register(pattern="^/captchamode ?(.*)")
+async def t(event):
+ arg = event.pattern_match.group(1)
+ if not arg == "button" or not arg == "text" or not arg == "math":
+   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/math/text")
+ type = arg
+ chats = captcha.find({})
+ try:
+  for c in chats:
+      if event.chat_id == c["id"]:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                },
+                {"$set": {"type": type}},
+            )
+          return
+  captcha.insert_one(
+        {"id": event.chat_id, "type": type, "time": 0}
+    )
+ except Exception as e:
+  print(e)
+            
+ 
+
