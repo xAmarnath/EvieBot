@@ -59,31 +59,45 @@ async def extract_time(message, time_val):
         )
         return
 
-
-async def anonymous(event):
+async def anonymous(event, user.id):
   if not event.from_id == None:
     return False
-  buttons = Button.inline("Click to prove admin", data="adata")
-  text = "It looks like you're anonymous. Tap this button to confirm your identity."
-  await event.reply(text, buttons=buttons)
-  sender_id = await cbot(event)
-  return sender_id
+  else:
+   buttons = Button.inline("Click to prove admin", data="adata_{}".format(user.id))
+   text = "It looks like you're anonymous. Tap this button to confirm your identity."
+   await event.reply(text, buttons=buttons)
+   return True
   
-async def cbot(event):
- @tbot.on(events.CallbackQuery(pattern=r"adata"))
- async def deedi(porn):
-  sender_id = porn.sender_id
-  print(sender_id)
-  return sender_id
- 
- 
+@tbot.on(events.CallbackQuery(pattern=r"adata(\_(.*))"))
+async def deedi(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user = int(input)
+  sender_id = event.sender_id
+  if not sender_id == OWNER_ID:
+    if not await is_admin(event, sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if await is_admin(event, user):
+        return await event.reply("Yeah lets start banning admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  if user:
+    if user == BOT_ID or user == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
+  await tbot(EditBannedRequest(event.chat_id, user, BANNED_RIGHTS))
+  await event.reply("Banned User!")
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
-  if event.is_private:
-    return await event.reply("This command is made to be used in group chats, not in pm!")
-  sender_id = await anonymous(event)
-  user, args = await get_user(event)
+ if event.is_private:
+   return await event.reply("This command is made to be used in group chats, not in pm!")
+ user, args = await get_user(event)
+ h = await anonymous(event, user.id)
+ if not h:
   if not sender_id == OWNER_ID:
     if not await is_admin(event, sender_id):
        return await event.reply("Only Admins can execute this command!")
