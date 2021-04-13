@@ -101,14 +101,15 @@ async def _(event):
  
 @register(pattern="^/start captcha$")
 async def h(event):
- a = gen_captcha(6)
- b = gen_captcha(6)
- c = gen_captcha(6)
- d = gen_captcha(6)
- image = image_captcha.generate_image(a)
- image_file = "./"+ "captcha.png"
- image_captcha.write(a, image_file)
- keyboard = [
+ try:
+  a = gen_captcha(6)
+  b = gen_captcha(6)
+  c = gen_captcha(6)
+  d = gen_captcha(6)
+  image = image_captcha.generate_image(a)
+  image_file = "./"+ "captcha.png"
+  image_captcha.write(a, image_file)
+  keyboard = [
             Button.inline(
                 f"{a}",
                 data='pip'
@@ -126,9 +127,10 @@ async def h(event):
                 data='paku'
             )
         ]
- shuffle(keyboard)
- await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=buttons)
-
+  shuffle(keyboard)
+  await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=buttons)
+ except Exception as e:
+  printe(e)
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
