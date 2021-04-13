@@ -347,89 +347,13 @@ async def demote(dmod):
         return
 
 
-@register(pattern="^/ban ?(.*)")
-async def ban(bon):
-    if not bon.is_group:
-        return
-    if bon.is_group:
-      if not bon.sender_id == OWNER_ID:
-       if not await is_register_admin(bon.input_chat, bon.sender_id):
-           await bon.reply("Only admins can execute this command!")
-           return
-       if not await can_ban_users(message=bon):
-            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
-            return
-    user, reason = await rep(bon)
-    if user.id == BOT_ID:
-      await bon.reply("You know what I'm not going to do? Ban myself.")
-      return
-    elif sudo(user.id):
-      await bon.reply("I'm not banning one of my sudo users.")
-      return
-    if user:
-        pass
-    else:
-        return
-
-    if bon.is_group:
-        if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("Why would I ban an admin? That sounds like a pretty dumb idea.")
-            return
-        pass
-    else:
-        return
-
-    try:
-        await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
-        if not reason:
-          await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
-        else:
-          await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).\nReason: {reason}")
-    except Exception:
-        await bon.reply("I haven't got the rights to do this.")
-        return
 
 
 
 
 
-@register(pattern="^/kick(?: |$)(.*)")
-async def kick(bon):
-    if not bon.is_group:
-        return
-    if bon.is_group:
-      if not bon.sender_id == OWNER_ID:
-       if not await is_register_admin(bon.input_chat, bon.sender_id):
-           await bon.reply("Only admins can execute this command!")
-           return
-       if not await can_ban_users(message=bon):
-            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
-            return
-    user = await get_user_from_event(bon)
-    if user.id == BOT_ID:
-         await bon.reply("Yeahhh, I'm not going to kick myself.")
-         return
 
-    if user:
-        pass
-    else:
-        return
 
-    if bon.is_group:
-        if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("I'm not gonna kick an admin... Though I reckon it'd be pretty funny.")
-            return
-        pass
-    else:
-        return
-
-    try:
-        await tbot.kick_participant(bon.chat_id, user.id)
-        await bon.reply("I've kicked [User](tg://user?id={user.id}).")
-
-    except BaseException:
-        await bon.reply("Failed to kickA.")
-        return
 
 
 
