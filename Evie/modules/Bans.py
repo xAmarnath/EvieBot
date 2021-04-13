@@ -61,8 +61,7 @@ async def extract_time(message, time_val):
 
 @register(pattern="^/hi ?(.*)")
 async def anonymous(event):
-  k = telethon.tl.custom.participantpermissions.ParticipantPermissions(event.chat_id, event.sender_id)
-  if k.anonymous:
+  if event.sender_id == 1087968824:
      await tbot.send_message(event.chat_id, f'lel')
  
 
