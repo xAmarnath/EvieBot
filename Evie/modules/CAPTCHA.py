@@ -4,7 +4,7 @@ from telethon import Button, events
 from Evie.function import gen_captcha
 from Evie.events import register
 from captcha.image import ImageCaptcha
-image_captcha = ImageCaptcha(width = 200, height = 135)
+image_captcha = ImageCaptcha(width = 400, height = 270)
 from random import shuffle
 from pyrogram import emoji
 from pymongo import MongoClient
