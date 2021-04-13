@@ -179,20 +179,23 @@ async def t(event):
   return await event.reply("Please Specify in Seconds **For Now**")
  if len(time) > 4:
   return await event.reply("Nada")
- chats = captcha.find({})
- for c in chats:
+ try:
+  chats = captcha.find({})
+  for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
- if type:
-  captcha.delete_one({"id": event.chat_id})
-  captcha.insert_one(
+  if type:
+   captcha.delete_one({"id": event.chat_id})
+   captcha.insert_one(
+        {"id": event.chat_id, "type": 'button', "time": time}
+     )
+  else:
+   captcha.insert_one(
         {"id": event.chat_id, "type": 'button', "time": time}
     )
- else:
-  captcha.insert_one(
-        {"id": event.chat_id, "type": 'button', "time": time}
-    )
- await event.reply(f"Welcome kick time has been set to {time} seconds.")
+  await event.reply(f"Welcome kick time has been set to {time} seconds.")
+ except Exception as e:
+   await event.reply(f"{e}")
 
 
 
