@@ -1,6 +1,7 @@
 from Evie import tbot, CMD_HELP, MONGO_DB_URI
 import os, asyncio
 from telethon import Button, events
+from Evie.events import register
 from random import shuffle
 from pyrogram import emoji
 from pymongo import MongoClient
@@ -9,7 +10,6 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.captcha
 
-WELCOME_DELAY_KICK_SEC = 20
 
 from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
@@ -37,6 +37,7 @@ async def _(event):
           return
        if event.chat_id == c["id"]:
           type = c["type"]
+          time = c["time"]
   if not type == "button":
      return
   a_user = await event.get_user()
@@ -65,6 +66,7 @@ async def _(event):
             text,
             buttons=keyboard
         )
+  WELCOME_DELAY_KICK_SEC = time
   await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
@@ -168,3 +170,28 @@ async def cbot(event):
     await event.answer("Verified Successfully ✅")
     await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
     await event.edit(buttons=None)
+
+@register(pattern="^/captchakicktime ?(.*)")
+async def t(event):
+ try:
+  time = int(event.pattern_match.group(1)
+ except:
+  return await event.reply("Please Specify in Seconds **For Now**")
+ if len(time) > 4:
+  return await event.reply("Nada")
+ chats = captcha.find({})
+ for c in chats:
+       if event.chat_id == c["id"]:
+          type = c["type"]
+ if type:
+  captcha.delete_one({"id": event.chat_id})
+  captcha.insert_one(
+        {"id": event.chat_id, "type": 'button', "time": time}
+    )
+ else:
+  captcha.insert_one(
+        {"id": event.chat_id, "type": 'button', "time": time}
+    )
+
+
+
