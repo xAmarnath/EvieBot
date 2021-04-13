@@ -183,7 +183,6 @@ async def t(event):
  chats = captcha.find({})
  for c in chats:
       if event.chat_id == c["id"]:
-       try:
           to_check = get_chat(id=event.chat_id)
           captcha.update_one(
                 {
