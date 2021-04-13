@@ -74,6 +74,7 @@ async def cbot(event):
  async def deedi(porn):
   sender_id = porn.sender_id
   print(sender_id)
+  return sender_id
  return sender_id
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
