@@ -61,15 +61,16 @@ async def extract_time(message, time_val):
 
 async def anonymous(event):
   k = telethon.tl.custom.participantpermissions.ParticipantPermissions(event.chat_id, event.sender_id)
-  if k.anonymous == False:
+  if not k.anonymous:
      return event.sender_id
   else:
-     buttons = Button.inline('Click to prove admin', data=f"ano")
+     buttons = Button.inline('Click to prove admin', data="ano")
      text = "It looks like you're anonymous. Tap this button to confirm your identity."
   await event.reply(text, buttons=buttons)
   @tbot.on(events.CallbackQuery(pattern=r"ano"))
   async def cbot(event):
-     print(69)
+     return event.sender_id
+     print(event.sender_id)
  
 
 
@@ -79,7 +80,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   user, args = await get_user(event)
-  await anonymous(event)
+  user_id = await anonymous(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
