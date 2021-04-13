@@ -75,7 +75,7 @@ async def deedi(event):
   input = data.split("_", 1)[1]
   user = int(input)
   sender_id = event.sender_id
-  if not sender_id == OWNER_ID:
+  if not sender_id == BOT_ID:
     if not await is_admin(event, sender_id):
        return await event.reply("Only Admins can execute this command!")
     if await is_admin(event, user):
