@@ -59,11 +59,11 @@ async def extract_time(message, time_val):
         )
         return
 
-async def anonymous(event, user.id):
+async def anonymous(event, userid):
   if not event.from_id == None:
     return False
   else:
-   buttons = Button.inline("Click to prove admin", data="adata_{}".format(user.id))
+   buttons = Button.inline("Click to prove admin", data="adata_{}".format(userid))
    text = "It looks like you're anonymous. Tap this button to confirm your identity."
    await event.reply(text, buttons=buttons)
    return True
@@ -96,7 +96,8 @@ async def dban(event):
  if event.is_private:
    return await event.reply("This command is made to be used in group chats, not in pm!")
  user, args = await get_user(event)
- h = await anonymous(event, user.id)
+ userid = user.id
+ h = await anonymous(event, userid)
  if not h:
   if not sender_id == OWNER_ID:
     if not await is_admin(event, sender_id):
