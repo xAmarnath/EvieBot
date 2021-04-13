@@ -66,19 +66,21 @@ async def anonymous(event):
   buttons = Button.inline("Click to prove admin", data="adata")
   text = "It looks like you're anonymous. Tap this button to confirm your identity."
   await event.reply(text, buttons=buttons)
-  await cbot(event)
+  sender_id = await cbot(event)
+  return sender_id
   
 async def cbot(event):
  @tbot.on(events.CallbackQuery(pattern=r"adata"))
  async def deedi(porn):
   sender_id = porn.sender_id
   print(sender_id)
+ return sender_id
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
-  o = await anonymous(event)
+  sender_id = await anonymous(event)
   user, args = await get_user(event)
   if not sender_id == OWNER_ID:
     if not await is_admin(event, sender_id):
