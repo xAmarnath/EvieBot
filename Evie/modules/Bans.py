@@ -67,11 +67,10 @@ async def anonymous(event):
      buttons = Button.inline('Click to prove admin', data="ano")
      text = "It looks like you're anonymous. Tap this button to confirm your identity."
      return await event.reply(text, buttons=buttons)
-
-@tbot.on(events.CallbackQuery(pattern=r"ano"))
-  async def cbot(event):
-     return event.sender_id
-     print(event.sender_id)
+     @tbot.on(events.CallbackQuery(pattern=r"ano"))
+     async def cbot(event):
+       return event.sender_id
+       print(event.sender_id)
  
 
 
