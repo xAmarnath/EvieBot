@@ -88,7 +88,7 @@ async def deedi(event):
         return await event.reply("Ask the chat creator to do it!")
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
-  await event.delete()
+  await event.edit("Verified!", buttons=None)
   await tbot(EditBannedRequest(event.chat_id, user, BANNED_RIGHTS))
   await event.reply("Banned User!")
 
