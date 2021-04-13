@@ -66,11 +66,12 @@ async def anonymous(event):
   buttons = Button.inline("Click to prove admin", data="adata")
   text = "It looks like you're anonymous. Tap this button to confirm your identity."
   await event.reply(text, buttons=buttons)
-  await cbot
+  await cbot(event)
   
 @tbot.on(events.CallbackQuery(pattern=r"adata"))
 async def cbot(event):
      sender_id = event.sender_id
+     print(sender_id)
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
