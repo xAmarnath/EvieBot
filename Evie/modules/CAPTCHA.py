@@ -90,12 +90,19 @@ async def _(event):
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
+  if not type:
+    return
   if not type == "text":
      return
   await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
+  WELCOME_DELAY_KICK_SEC = time
+  if not time == 0:
+    asyncio.create_task(kick_restricted_after_delay(
+            WELCOME_DELAY_KICK_SEC, event, user_id))
+    await asyncio.sleep(0.5)
  except Exception as e:
   print(e)
 
