@@ -81,7 +81,6 @@ async def _(event):
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
- try:
   if not event.user_joined:
           return
   user_id = event.user_id
@@ -94,8 +93,6 @@ async def _(event):
     return
   if not type == "text":
      return
-  global chat
-  chat = event.chat_id
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -108,16 +105,12 @@ async def _(event):
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
- except Exception as e:
-  print(e)
 
 chance = 3
  
 @register(pattern="^/start captcha_(.*)")
 async def h(event):
- try:
   chat = int(event.pattern_match.group(1))
-  await event.reply(f"{chat}")
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
@@ -146,9 +139,6 @@ async def h(event):
   shuffle(keyboard)
   await asyncio.sleep(0.5)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
-  chat = None
- except Exception as e:
-  print(e)
 
 @tbot.on(events.CallbackQuery(pattern=r"pip(\_(.*))"))
 async def bak(event):
@@ -171,7 +161,7 @@ async def bak(event):
   await event.answer("Wrong try again!")
   if chance == 0:
      chance += 3
-     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
@@ -209,7 +199,7 @@ async def bak(event):
   await event.answer("Wrong try again❌")
   if chance == 0:
      chance += 3
-     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
@@ -247,7 +237,7 @@ async def bak(event):
   await event.answer("Wrong try again❌")
   if chance == 0:
      chance += 3
-     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
