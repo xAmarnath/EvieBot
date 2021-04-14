@@ -90,9 +90,11 @@ async def f(event):
       rk = f"{event.sender_id}"
       fname = event.sender.first_name
       grp = f"t.me/{channel}"
+      k = await tbot.get_entity(channel)
+      username = k.username
       buttons = [[Button.url("Join Channel", grp)],
                [Button.inline("Unmute Me", data="fs_{}".format(rk))],]
-      text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet❗.Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
+      text = "Hello {} You need to join [channel](https://t.me/{}) here to send messages in groupAfter joining channel click UNMUTE ME Button to unmute yourself.\n\nJoin @{}".format(fname, channel, username)
       await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
       await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
   except:
