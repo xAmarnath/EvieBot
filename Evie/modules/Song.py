@@ -46,6 +46,10 @@ async def yt(event):
     thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
+    image = Image.open(downloaded_thumb)
+    new_image = image.resize((400, 400))
+    new_image.save('image69.jpg')
+    thumb = './image69.jpg'
     opts = {
         "format": "bestaudio",
         "addmetadata": True,
@@ -58,7 +62,7 @@ async def yt(event):
             {
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
-                "preferredquality": "720",
+                "preferredquality": "480",
             }
         ],
         "outtmpl": "%(id)s.mp3",
@@ -72,28 +76,29 @@ async def yt(event):
         await pablo.edit(f"**Failed To Download** \n**Error :** `{str(e)}`")
         return
     c_time = time.time()
-    await tbot.send_message(event.chat_id, f"{yt_id}")
     capy = f"**Song Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     file_stark = f"{ytdl_data['id']}.mp3"
     file=open(file_stark, "rb")
     author = ytdl_data["uploader"]
-    await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{author}**")
+    await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{author}**\n**Requested By:** {event.sender.first_name}")
     async with tbot.action(event.chat_id, 'audio'):
        await tbot.send_file(
         event.chat_id,
         file,
-        thumb=downloaded_thumb,
+        thumb=thumb,
+        supports_streaming=True,
+        force_document=False,
         attributes=[
                 DocumentAttributeAudio(
                     duration=int(ytdl_data["duration"]),
                     title=str(ytdl_data["title"]),
-                    performer=(ytdl_data["uploader"]),
-                    waveform='256',
+                    performer=author,
+                    waveform='320',
                 )
-     ],
+            ],
     )
     await pablo.delete()
-    for files in (downloaded_thumb, file_stark):
+    for files in (downloaded_thumb, file_stark, thumb):
         if files and os.path.exists(files):
             os.remove(files)
  except Exception as e:
