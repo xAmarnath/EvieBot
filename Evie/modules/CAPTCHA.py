@@ -627,3 +627,9 @@ async def t(event):
         {"id": event.chat_id, "type": type, "time": 0}
     )
   await event.reply(f"Successfully set captchamode to **{type}**.")
+
+
+@tbot.on(events.NewMessage(pattern=None))
+async def babe(event):
+ if not event.via_bot_id == None:
+   await event.delete()
