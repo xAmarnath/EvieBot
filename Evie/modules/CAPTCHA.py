@@ -137,7 +137,6 @@ async def h(event):
 @tbot.on(events.CallbackQuery(pattern=r"pip"))
 async def bak(event):
  user_id = event.sender_id
- await event.delete()
  await event.edit("Successfully Verified✅, now you can message in the chat!", file=None, buttons=None)
 
 @tbot.on(events.CallbackQuery(pattern=r"exec"))
@@ -145,6 +144,8 @@ async def bak(event):
   global chance
   chance -= 1
   await event.answer("Wrong try again❌")
+  if chance == 0:
+     return await event.edit("Your chances are exchausted, verification failed❌")
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
