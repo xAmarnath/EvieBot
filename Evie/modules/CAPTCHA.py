@@ -130,6 +130,7 @@ async def h(event):
             )]
         ]
   shuffle(keyboard)
+  shuffle(keyboard)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
  except Exception as e:
   print(e)
@@ -137,7 +138,7 @@ async def h(event):
 @tbot.on(events.CallbackQuery(pattern=r"pip"))
 async def bak(event):
  user_id = event.sender_id
- await event.edit("Successfully Verified✅, now you can message in the chat!", file=None, buttons=None)
+ await event.edit("Successfully Verified✅, now you can message in the chat!", buttons=None)
  global chance
  chance = 3
 
@@ -145,7 +146,7 @@ async def bak(event):
 async def bak(event):
   global chance
   chance -= 1
-  await event.answer("Wrong try again❌")
+  await event.answer("Wrong try again!")
   if chance == 0:
      chance += 3
      return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
@@ -174,6 +175,7 @@ async def bak(event):
                 data='paku'
             )]
         ]
+  shuffle(keyboard)
   shuffle(keyboard)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
@@ -212,6 +214,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
+  shuffle(keyboard)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
@@ -248,6 +251,7 @@ async def bak(event):
                 data='paku'
             )]
         ]
+  shuffle(keyboard)
   shuffle(keyboard)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
