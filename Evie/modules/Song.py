@@ -82,8 +82,6 @@ async def yt(event):
         event.chat_id,
         file,
         thumb=downloaded_thumb,
-        supports_streaming=True,
-        force_document=False,
         attributes=[
                 DocumentAttributeAudio(
                     duration=int(ytdl_data["duration"]),
@@ -94,7 +92,7 @@ async def yt(event):
             ],
     )
     await pablo.delete()
-    for files in (downloaded_thumb, file_stark, thumb):
+    for files in (downloaded_thumb, file_stark):
         if files and os.path.exists(files):
             os.remove(files)
  except Exception as e:
