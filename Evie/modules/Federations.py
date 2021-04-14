@@ -953,6 +953,8 @@ async def ft(event):
           name = f["fed"]["fname"]
  user = await suck(event)
  user_id = user.id
+ if user.bot:
+  return await event.reply("Bots can't own federations.")
  fedora = sql.get_user_owner_fed_full(user_id)
  try:
   replied_user = await tbot(GetFullUserRequest(user))
