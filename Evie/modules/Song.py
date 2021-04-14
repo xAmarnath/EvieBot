@@ -179,13 +179,14 @@ async def deezr(v_url):
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
             supports_streaming=True,
-            caption=rip_data["title"],
+            caption=rip_data["title"]
         )
-        try:
-            os.system("rm -rf *.mp4")
-            os.system("rm -rf *.webp")
-            os.system("rm -rf *.jpg")
-        except:
-           pass
+         
  except Exception as e:
     await v_url.reply(f'{e}')
+ try:
+   os.system("rm -rf *.mp4")
+   os.system("rm -rf *.webp")
+   os.system("rm -rf *.jpg")
+ except:
+     pass
