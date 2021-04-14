@@ -138,6 +138,37 @@ async def bak(event):
  await event.delete()
  await tbot.send_message(event.chat_id, "Successfully Verified✅, now you can message in the chat!")
 
+@tbot.on(events.CallbackQuery(pattern=r"pip"))
+async def bak(event):
+  await event.answer("Wrong try again❌")
+  a = gen_captcha(8)
+  b = gen_captcha(8)
+  c = gen_captcha(8)
+  d = gen_captcha(8)
+  image = image_captcha.generate_image(a)
+  image_file = "./"+ "captcha.png"
+  image_captcha.write(a, image_file)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='pip'
+            ),
+            Button.inline(
+                f"{b}",
+                data='exec'
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='sli'
+            ),
+            Button.inline(
+                f"{d}",
+                data='paku'
+            )]
+        ]
+  shuffle(keyboard)
+  text = "Try again you have 2 chances left"
+  await event.edit(text, file='./captcha.png', buttons=buttons)
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
