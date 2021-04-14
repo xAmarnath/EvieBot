@@ -150,7 +150,10 @@ async def _(event):
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
-
+  if not time == 0 and time == None:
+    asyncio.create_task(kick_restricted_after_delay(
+            WELCOME_DELAY_KICK_SEC, event, user_id))
+    await asyncio.sleep(0.5)
 
 @register(pattern="^/start math_(.*)")
 async def h(event):
