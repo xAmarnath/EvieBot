@@ -82,7 +82,6 @@ async def yt(event):
         event.chat_id,
         file,
         thumb=downloaded_thumb,
-            ],
     )
     await pablo.delete()
     for files in (downloaded_thumb, file_stark):
