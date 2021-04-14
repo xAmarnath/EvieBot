@@ -101,7 +101,7 @@ async def _(event):
   except:
     return
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if not time == 0:
@@ -113,8 +113,11 @@ async def _(event):
 
 chance = 3
  
-@register(pattern="^/start captcha$")
+@register(pattern="^/start captcha(\_(.*))")
 async def h(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ chat_id = data.split("_", 1)[1]
  try:
   a = gen_captcha(8)
   b = gen_captcha(8)
@@ -126,7 +129,7 @@ async def h(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip'
+                data=f'pip_{}'.format(chat_id)
             ),
             Button.inline(
                 f"{b}",
@@ -147,9 +150,11 @@ async def h(event):
  except Exception as e:
   print(e)
 
-@tbot.on(events.CallbackQuery(pattern=r"pip"))
+@tbot.on(events.CallbackQuery(pattern=r"pip(\_(.*))"))
 async def bak(event):
- global chat_id
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ chat_id = data.split("_", 1)[1]
  user_id = event.sender_id
  await event.edit("Successfully Verified✅, now you can message in the chat!", buttons=None)
  await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
