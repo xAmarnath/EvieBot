@@ -804,7 +804,7 @@ async def q(event):
    if tp:
     calt = "True"
     mode = tp
-    if time:
+    if tym:
      set = tym
     else:
      set = "None"
@@ -812,17 +812,12 @@ async def q(event):
     calt = "False"
     mode = "None"
     set = "None"
-   cws = get_current_welcome_settings(event.chat_id)
-   if cws:
-     current_saved_welcome_message = cws.custom_welcome_message
-   else:
-     current_saved_welcome_message = "No Custom Msg"
    chats = welcome.find({})
    for c in chats:
     if event.chat_id == c["id"]:
        settings = c["type"]
    if settings == "on":
-     return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **Disabled**\nCurrent Welcome Message:\n\n{current_saved_welcome_message}")
+     return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **disabled**")
  except Exception as e:
   await event.reply(f"{e}")
 
