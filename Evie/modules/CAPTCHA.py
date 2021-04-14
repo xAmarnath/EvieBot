@@ -31,7 +31,6 @@ async def kick_restricted_after_delay(delay, event, user_id):
     k = await tbot.get_permissions(event.chat_id, user_id)
     if not k.is_banned:
       return
-    user_id = user_id
     await event.delete()
     await tbot.kick_participant(event.chat_id, user_id)
 
@@ -150,6 +149,7 @@ async def _(event):
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
+  WELCOME_DELAY_KICK_SEC = time
   if not time == 0 and time == None:
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
