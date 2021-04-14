@@ -463,7 +463,6 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  shuffle(keyboard)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
@@ -609,7 +608,7 @@ async def t(event):
  if not arg == "button" and not arg == "text" and not arg == "math":
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/math/text")
  type = arg
- try:
+ if type:
   for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
@@ -622,9 +621,10 @@ async def t(event):
                 },
                 {"$set": {"type": type}},
             )
+          await event.reply(f"Successfully updated captchamode to **{type}**")
           return
   captcha.insert_one(
         {"id": event.chat_id, "type": type, "time": 0}
     )
- except Exception as e:
-  print(e)
+  await event.reply(f"Successfully set captchamode to **{type}**.")
+          return
