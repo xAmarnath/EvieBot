@@ -110,6 +110,8 @@ chance = 3
  
 @register(pattern="^/start captcha_(.*)")
 async def h(event):
+  if not event.is_private:
+   return
   chat = int(event.pattern_match.group(1))
   a = gen_captcha(8)
   b = gen_captcha(8)
