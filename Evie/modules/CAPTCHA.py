@@ -793,34 +793,37 @@ async def t(event):
 
 @register(pattern="^/welcome ?(.*)")
 async def q(event):
- arg = event.pattern_match.group(1)
- if not arg:
-  cp = captcha.find({})
-  for c in cp:
+ try:
+  arg = event.pattern_match.group(1)
+  if not arg:
+   cp = captcha.find({})
+   for c in cp:
       if event.chat_id == c["id"]:
          tp = c["type"]
          tym = c["time"]
-  if tp:
+   if tp:
     calt = "True"
     mode = tp
     if time:
      set = tym
     else:
      set = "None"
-  else:
+   else:
     calt = "False"
     mode = "None"
     set = "None"
-  cws = get_current_welcome_settings(event.chat_id)
-  if cws:
-    current_saved_welcome_message = cws.custom_welcome_message
-  else:
-    current_saved_welcome_message = "No Custom Msg"
-  chats = welcome.find({})
-  for c in chats:
-   if event.chat_id == c["id"]:
-      settings = c["type"]
-  if settings == "on":
-    return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **Disabled**\nCurrent Welcome Message:\n\n{current_saved_welcome_message}")
+   cws = get_current_welcome_settings(event.chat_id)
+   if cws:
+     current_saved_welcome_message = cws.custom_welcome_message
+   else:
+     current_saved_welcome_message = "No Custom Msg"
+   chats = welcome.find({})
+   for c in chats:
+    if event.chat_id == c["id"]:
+       settings = c["type"]
+   if settings == "on":
+     return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **Disabled**\nCurrent Welcome Message:\n\n{current_saved_welcome_message}")
+ except Exception as e:
+  await event reply(f"{e}")
 
 
