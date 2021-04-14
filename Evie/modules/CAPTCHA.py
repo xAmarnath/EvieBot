@@ -94,7 +94,12 @@ async def _(event):
     return
   if not type == "text":
      return
-  await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  chat_id = event.chat_id
+  global chat_id
+  try:
+    await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  except:
+    return
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
@@ -144,8 +149,10 @@ async def h(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"pip"))
 async def bak(event):
+ global chat_id
  user_id = event.sender_id
  await event.edit("Successfully Verified✅, now you can message in the chat!", buttons=None)
+ await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
  global chance
  chance = 3
 
