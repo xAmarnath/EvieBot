@@ -117,6 +117,7 @@ chance = 3
 async def h(event):
  try:
   chat = int(event.pattern_match.group(1))
+  await event.reply(f"{chat}")
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
@@ -153,10 +154,13 @@ async def h(event):
 async def bak(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
- chat_id = data.split("_", 1)[1]
+ chat_id = int(data.split("_", 1)[1])
  user_id = event.sender_id
  await event.edit("Successfully Verified✅, now you can message in the chat!", buttons=None)
- await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
+ try:
+   await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
+ except:
+   pass
  global chance
  chance = 3
 
