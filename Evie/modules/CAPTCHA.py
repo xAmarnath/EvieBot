@@ -6,6 +6,7 @@ from Evie.events import register
 from captcha.image import ImageCaptcha
 image_captcha = ImageCaptcha(width = 400, height = 270)
 from random import shuffle
+import random
 from pyrogram import emoji
 from pymongo import MongoClient
 client = MongoClient()
@@ -104,6 +105,7 @@ async def _(event):
 
 @register(pattern="^/start math_(.*)")
 async def h(event):
+ try:
   if not event.is_private:
    return
   chat = int(event.pattern_match.group(1))
@@ -134,6 +136,8 @@ async def h(event):
   shuffle(keyboard)
   await asyncio.sleep(0.5)
   await tbot.send_message(event.chat_id, f"**What is the sum of {x} + {y}?**\n\nChoose the correct option from Below to get verified.", buttons=keyboard)
+ except Exception as e:
+   await event.reply(f"{e}")
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
