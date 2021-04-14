@@ -47,7 +47,7 @@ async def yt(event):
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
     image = Image.open(downloaded_thumb)
-    new_image = image.resize((400, 400))
+    new_image = image.resize((1080, 540))
     new_image.save('image69.jpg')
     thumb = './image69.jpg'
     opts = {
@@ -172,20 +172,13 @@ async def deezr(v_url):
         await rkp.edit(f"{str(type(e)): {str(e)}}")
         return
     c_time = time.time()
+    title = rip_data["title"]
     if video:
-        await rkp.edit(f"Sending the video song ...")
-        async with tbot.action(v_url.chat_id, 'video'):
+         await rkp.edit(f"Preparing to Upload Video:\n**{title}**\n**Requested by:** {event.sender.first_name}")
          y = await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
             supports_streaming=True,
-            attributes=[
-                DocumentAttributeVideo(
-                    duration=int(rip_data["duration"]),
-                    w=800,
-                    h=540,
-             )
-             ],
             caption=rip_data["title"],
         )
         try:
