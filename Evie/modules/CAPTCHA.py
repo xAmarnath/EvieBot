@@ -99,8 +99,12 @@ async def _(event):
             buttons=keyboard
         )
   WELCOME_DELAY_KICK_SEC = time
-  await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
-  if not time == 0:
+  try:
+    await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  except:
+    pass
+  if time:
+   if not time == 0:
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
@@ -150,7 +154,8 @@ async def _(event):
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
-  if not time == 0 and time == None:
+  if time:
+   if not time == 0:
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
@@ -364,7 +369,8 @@ async def _(event):
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
-  if not time == 0:
+  if time:
+   if not time == 0:
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
@@ -672,6 +678,8 @@ async def t(event):
 async def t(event):
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only Admins can execute this command!")
  if not arg:
    for c in chats:
       if event.chat_id == c["id"]:
@@ -679,7 +687,7 @@ async def t(event):
    if type:
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
-     return await event.reply("Captcha is off for this Chat")
+     return await event.reply("Captcha is currently off for this Chat")
  if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
  type = arg
@@ -728,6 +736,15 @@ async def _(event):
     return
   if not type == "button":
      return
+  await math(event)
+
+async def math(event):
+  user_id = event.user_id
+  chats = captcha.find({})
+  for c in chats:
+       if event.chat_id == c["id"]:
+          type = c["type"]
+          time = c["time"]
   buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{user_id}")
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
@@ -761,7 +778,12 @@ async def _(event):
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
     pass
-  
+  WELCOME_DELAY_KICK_SEC = time
+  if time:
+   if not time == 0:
+    asyncio.create_task(kick_restricted_after_delay(
+            WELCOME_DELAY_KICK_SEC, event, user_id))
+    await asyncio.sleep(0.5)
 
 @tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
 async def cbot(event):
