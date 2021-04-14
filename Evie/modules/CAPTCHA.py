@@ -138,7 +138,7 @@ async def bak(event):
  await event.delete()
  await tbot.send_message(event.chat_id, "Successfully Verified✅, now you can message in the chat!")
 
-@tbot.on(events.CallbackQuery(pattern=r"pip"))
+@tbot.on(events.CallbackQuery(pattern=r"exec"))
 async def bak(event):
   await event.answer("Wrong try again❌")
   a = gen_captcha(8)
