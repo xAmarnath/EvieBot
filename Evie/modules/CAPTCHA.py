@@ -138,6 +138,8 @@ async def h(event):
 async def bak(event):
  user_id = event.sender_id
  await event.edit("Successfully Verified✅, now you can message in the chat!", file=None, buttons=None)
+ global chance
+ chance = 3
 
 @tbot.on(events.CallbackQuery(pattern=r"exec"))
 async def bak(event):
