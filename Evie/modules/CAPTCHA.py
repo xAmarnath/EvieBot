@@ -178,6 +178,81 @@ async def bak(event):
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
+@tbot.on(events.CallbackQuery(pattern=r"sli"))
+async def bak(event):
+  global chance
+  chance -= 1
+  await event.answer("Wrong try again❌")
+  if chance == 0:
+     chance += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
+  a = gen_captcha(8)
+  b = gen_captcha(8)
+  c = gen_captcha(8)
+  d = gen_captcha(8)
+  image = image_captcha.generate_image(a)
+  image_file = "./"+ "captcha.png"
+  image_captcha.write(a, image_file)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='pip'
+            ),
+            Button.inline(
+                f"{b}",
+                data='exec'
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='sli'
+            ),
+            Button.inline(
+                f"{d}",
+                data='paku'
+            )]
+        ]
+  shuffle(keyboard)
+  text = f"Try again you have {chance} chances left"
+  await event.edit(text, file="./captcha.png", buttons=keyboard)
+
+@tbot.on(events.CallbackQuery(pattern=r"paku"))
+async def bak(event):
+  global chance
+  chance -= 1
+  await event.answer("Wrong try again❌")
+  if chance == 0:
+     chance += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
+  a = gen_captcha(8)
+  b = gen_captcha(8)
+  c = gen_captcha(8)
+  d = gen_captcha(8)
+  image = image_captcha.generate_image(a)
+  image_file = "./"+ "captcha.png"
+  image_captcha.write(a, image_file)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='pip'
+            ),
+            Button.inline(
+                f"{b}",
+                data='exec'
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='sli'
+            ),
+            Button.inline(
+                f"{d}",
+                data='paku'
+            )]
+        ]
+  shuffle(keyboard)
+  text = f"Try again you have {chance} chances left"
+  await event.edit(text, file="./captcha.png", buttons=keyboard)
+
+
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
     user_id = int(event.pattern_match.group(1))
