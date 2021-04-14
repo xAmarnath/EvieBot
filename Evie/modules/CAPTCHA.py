@@ -46,8 +46,23 @@ async def _(event):
           time = c["time"]
   if not type:
     return
-  if not type == "multibutton":
-     return
+  if type == "multibutton":
+     return await multibutton(event)
+  elif type == "math":
+     return await math(event)
+  elif type == "button":
+     return await button(event)
+  elif type == "text":
+     return await text(event)
+
+
+async def multibutton(event):
+  user_id = event.user_id
+  chats = captcha.find({})
+  for c in chats:
+       if event.chat_id == c["id"]:
+          type = c["type"]
+          time = c["time"]
   a_user = await event.get_user()
   mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
   cws = get_current_welcome_settings(event.chat_id)
@@ -109,20 +124,14 @@ async def _(event):
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
 
-@tbot.on(events.ChatAction())  # pylint:disable=E0602
-async def _(event):
-  if not event.user_joined:
-          return
+
+async def math(event):
   user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
-  if not type:
-    return
-  if not type == "math":
-     return
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -324,20 +333,14 @@ async def bak(event):
   await asyncio.sleep(0.5)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
-@tbot.on(events.ChatAction())  # pylint:disable=E0602
-async def _(event):
-  if not event.user_joined:
-          return
+
+async def text(event):
   user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
-  if not type:
-    return
-  if not type == "text":
-     return
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -722,23 +725,9 @@ async def babe(event):
  if not event.via_bot_id == None:
    await event.delete()
 
-@tbot.on(events.ChatAction())  # pylint:disable=E0602
-async def _(event):
-  if not event.user_joined:
-          return
-  user_id = event.user_id
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-          time = c["time"]
-  if not type:
-    return
-  if not type == "button":
-     return
-  await math(event)
 
-async def math(event):
+
+async def button(event):
   user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
