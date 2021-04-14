@@ -824,6 +824,6 @@ async def q(event):
    if settings == "on":
      return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **Disabled**\nCurrent Welcome Message:\n\n{current_saved_welcome_message}")
  except Exception as e:
-  await event reply(f"{e}")
+  await event.reply(f"{e}")
 
 
