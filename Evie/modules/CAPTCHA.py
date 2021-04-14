@@ -94,12 +94,14 @@ async def _(event):
     return
   if not type == "text":
      return
+  global event_chat
+  event_chat = event.chat_id
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
     return
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if not time == 0:
@@ -111,11 +113,9 @@ async def _(event):
 
 chance = 3
  
-@register(pattern="^/start captcha(\_(.*))")
+@register(pattern="^/start captcha")
 async def h(event):
- tata = event.pattern_match.group(1)
- data = tata.decode()
- chat_id = data.split("_", 1)[1]
+ global event_chat
  try:
   a = gen_captcha(8)
   b = gen_captcha(8)
@@ -127,7 +127,7 @@ async def h(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip_{}'.format(chat_id)
+                data='pip_{}'.format(event_chat)
             ),
             Button.inline(
                 f"{b}",
