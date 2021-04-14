@@ -817,7 +817,7 @@ async def q(event):
     if event.chat_id == c["id"]:
        settings = c["type"]
    if settings == "on":
-     return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **disabled**")
+     return await event.reply(f"Current Welcome Stats: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **disabled**")
  except Exception as e:
   await event.reply(f"{e}")
 
