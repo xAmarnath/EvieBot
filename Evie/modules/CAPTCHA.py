@@ -820,7 +820,7 @@ async def q(event):
      wc = "True"
    elif settings == "off":
      wc = "False"
-   return await event.reply(f"current welcome Stats: `{wc}`\ncaptcha Status: `{calt}`\ncaptcha Mode: `{mode}`\ncaptcha kicktime: `{set}`\ncaptcha rules: `disabled`")
+   return await event.reply(f"Current welcome Stats: `{wc}`\n\nCaptcha Status: `{calt}`\nCaptcha Mode: `{mode}`\nCaptcha kicktime: `{set}`\nCaptcha rules: `disabled`")
  except Exception as e:
   await event.reply(f"{e}")
 
