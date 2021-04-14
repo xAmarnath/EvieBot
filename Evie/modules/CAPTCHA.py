@@ -655,7 +655,7 @@ async def _(event):
     return
   if not type == "button":
      return
-  buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{userid}")
+  buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{user_id}")
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
      a_user = await event.get_user()
