@@ -94,7 +94,7 @@ async def _(event):
      return
   await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = buttons= Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
  except Exception as e:
   print(e)
@@ -168,7 +168,7 @@ async def bak(event):
         ]
   shuffle(keyboard)
   text = "Try again you have 2 chances left"
-  await event.edit(text, file='./captcha.png', buttons=buttons)
+  await event.edit(text, file="./captcha.png", buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
 async def cbot(event):
