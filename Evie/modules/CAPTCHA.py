@@ -1,7 +1,7 @@
 from Evie import tbot, CMD_HELP, MONGO_DB_URI
 import os, asyncio
 from telethon import Button, events
-from Evie.function import gen_captcha
+from Evie.function import gen_captcha, is_admin
 from Evie.events import register
 from captcha.image import ImageCaptcha
 image_captcha = ImageCaptcha(width = 400, height = 270)
@@ -13,6 +13,8 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.capt
+
+from Evie.modules.sql.welcome_sql import get_current_welcome_settings
 
 maths = 2
 from telethon.tl.types import ChatBannedRights
@@ -634,5 +636,72 @@ async def babe(event):
  #inline delete
  if not event.chat.username == 'lunabotsupport':
     return
+ if await is_admin(event, event.sender_id):
+    return
  if not event.via_bot_id == None:
    await event.delete()
+
+@tbot.on(events.ChatAction())  # pylint:disable=E0602
+async def _(event):
+  if not event.user_joined:
+          return
+  user_id = event.user_id
+  chats = captcha.find({})
+  for c in chats:
+       if event.chat_id == c["id"]:
+          type = c["type"]
+          time = c["time"]
+  if not type:
+    return
+  if not type == "button":
+     return
+  buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{userid}")
+  cws = get_current_welcome_settings(event.chat_id)
+  if cws:
+     a_user = await event.get_user()
+     title = event.chat.title
+     mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+     first = a_user.first_name
+     last = a_user.last_name
+     if last:
+         fullname = f"{first} {last}"
+     else:
+         fullname = first
+     userid = a_user.id
+     current_saved_welcome_message = cws.custom_welcome_message
+     text = current_saved_welcome_message.format(
+                                mention=mention,
+                                title=title,
+                                first=first,
+                                last=last,
+                                fullname=fullname,
+                                userid=userid,
+                            )
+     text += "\n\n**Captcha Verification**"
+  else:
+   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  button_message = await event.reply(
+            text,
+            buttons=buttons
+        )
+  try:
+    await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  except:
+    pass
+  
+
+@tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
+async def cbot(event):
+    chats = verified_user.find({})
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    if event.sender_id == user_id:
+      try:
+            await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
+            await event.answer("Yep you are verified as a human being")
+            await event.edit(buttons=None)
+      except:
+         pass
