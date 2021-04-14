@@ -14,7 +14,7 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.capt
 
-chat = None
+maths = 2
 from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
 
@@ -105,7 +105,6 @@ async def _(event):
 
 @register(pattern="^/start math_(.*)")
 async def h(event):
- try:
   if not event.is_private:
    return
   chat = int(event.pattern_match.group(1))
@@ -122,22 +121,151 @@ async def h(event):
             ),
             Button.inline(
                 f"{b}",
-                data='babe'
+                data='babe_{}'.format(chat)
             ),],
             [Button.inline(
                 f"{c}",
-                data='nide'
+                data='nide_{}'.format(chat)
             ),
             Button.inline(
                 f"{d}",
-                data='nipa'
+                data='nipa_{}'.format(chat)
             )]
         ]
   shuffle(keyboard)
   await asyncio.sleep(0.5)
-  await tbot.send_message(event.chat_id, f"**What is the sum of {x} + {y}?**\n\nChoose the correct option from Below to get verified.", buttons=keyboard)
- except Exception as e:
-   await event.reply(f"{e}")
+  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+
+@tbot.on(events.CallbackQuery(pattern=r"sikle(\_(.*))"))
+async def bak(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ chat_id = int(data.split("_", 1)[1])
+ user_id = event.sender_id
+ await event.edit("Successfully Verified✅, now you can message in the chat!", buttons=None)
+ try:
+   await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
+ except:
+   pass
+ global maths
+ maths = 3
+
+@tbot.on(events.CallbackQuery(pattern=r"babe(\_(.*))"))
+async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
+  global maths
+  maths -= 1
+  if maths == 0:
+     maths += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
+  await event.answer("Wrong try again!")
+  x = random.randint(1,100)
+  y = random.randint(1,100)
+  a = x + y
+  d = random.randint(1, 100)
+  b = random.randint(1, 100)
+  c = random.randint(1, 100)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='sikle_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{b}",
+                data='babe_{}'.format(chat)
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{d}",
+                data='nipa_{}'.format(chat)
+            )]
+        ]
+  shuffle(keyboard)
+  await asyncio.sleep(0.5)
+  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+
+@tbot.on(events.CallbackQuery(pattern=r"nide(\_(.*))"))
+async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
+  global maths
+  maths -= 1
+  if maths == 0:
+     maths += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
+  await event.answer("Wrong try again!")
+  x = random.randint(1,100)
+  y = random.randint(1,100)
+  a = x + y
+  d = random.randint(1, 100)
+  b = random.randint(1, 100)
+  c = random.randint(1, 100)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='sikle_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{b}",
+                data='babe_{}'.format(chat)
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{d}",
+                data='nipa_{}'.format(chat)
+            )]
+        ]
+  shuffle(keyboard)
+  await asyncio.sleep(0.5)
+  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+
+@tbot.on(events.CallbackQuery(pattern=r"nipa(\_(.*))"))
+async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
+  global maths
+  maths -= 1
+  if maths == 0:
+     maths += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", buttons=None)
+  await event.answer("Wrong try again!")
+  x = random.randint(1,100)
+  y = random.randint(1,100)
+  a = x + y
+  d = random.randint(1, 100)
+  b = random.randint(1, 100)
+  c = random.randint(1, 100)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='sikle_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{b}",
+                data='babe_{}'.format(chat)
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{d}",
+                data='nipa_{}'.format(chat)
+            )]
+        ]
+  shuffle(keyboard)
+  await asyncio.sleep(0.5)
+  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
@@ -187,15 +315,15 @@ async def h(event):
             ),
             Button.inline(
                 f"{b}",
-                data='exec'
+                data='exec_{}'.format(chat)
             ),],
             [Button.inline(
                 f"{c}",
-                data='sli'
+                data='sli_{}'.format(chat)
             ),
             Button.inline(
                 f"{d}",
-                data='paku'
+                data='paku_{}'.format(chat)
             )]
         ]
   shuffle(keyboard)
@@ -216,8 +344,11 @@ async def bak(event):
  global chance
  chance = 3
 
-@tbot.on(events.CallbackQuery(pattern=r"exec"))
+@tbot.on(events.CallbackQuery(pattern=r"exec(\_(.*))"))
 async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
   global chance
   chance -= 1
   await event.answer("Wrong try again!")
@@ -234,19 +365,19 @@ async def bak(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip'
+                data='pip_{}'.format(chat)
             ),
             Button.inline(
                 f"{b}",
-                data='exec'
+                data='exec_{}'.format(chat)
             ),],
             [Button.inline(
                 f"{c}",
-                data='sli'
+                data='sli_{}'.format(chat)
             ),
             Button.inline(
                 f"{d}",
-                data='paku'
+                data='paku_{}'.format(chat)
             )]
         ]
   shuffle(keyboard)
@@ -254,8 +385,11 @@ async def bak(event):
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
-@tbot.on(events.CallbackQuery(pattern=r"sli"))
+@tbot.on(events.CallbackQuery(pattern=r"sli(\_(.*))"))
 async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
   global chance
   chance -= 1
   await event.answer("Wrong try again❌")
@@ -272,19 +406,19 @@ async def bak(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip'
+                data='pip_{}'.format(chat)
             ),
             Button.inline(
                 f"{b}",
-                data='exec'
+                data='exec_{}'.format(chat)
             ),],
             [Button.inline(
                 f"{c}",
-                data='sli'
+                data='sli_{}'.format(chat)
             ),
             Button.inline(
                 f"{d}",
-                data='paku'
+                data='paku_{}'.format(chat)
             )]
         ]
   shuffle(keyboard)
@@ -292,8 +426,11 @@ async def bak(event):
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
-@tbot.on(events.CallbackQuery(pattern=r"paku"))
+@tbot.on(events.CallbackQuery(pattern=r"paku(\_(.*))"))
 async def bak(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  chat = int(data.split("_", 1)[1])
   global chance
   chance -= 1
   await event.answer("Wrong try again❌")
@@ -310,19 +447,19 @@ async def bak(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip'
+                data='pip_{}'.format(chat)
             ),
             Button.inline(
                 f"{b}",
-                data='exec'
+                data='exec_{}'.format(chat)
             ),],
             [Button.inline(
                 f"{c}",
-                data='sli'
+                data='sli_{}'.format(chat)
             ),
             Button.inline(
                 f"{d}",
-                data='paku'
+                data='paku_{}'.format(chat)
             )]
         ]
   shuffle(keyboard)
@@ -491,6 +628,3 @@ async def t(event):
     )
  except Exception as e:
   print(e)
-            
- 
-
