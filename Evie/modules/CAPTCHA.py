@@ -804,7 +804,7 @@ async def q(event):
     calt = "True"
     mode = tp
     if time:
-     set = time
+     set = tym
     else:
      set = "None"
   else:
