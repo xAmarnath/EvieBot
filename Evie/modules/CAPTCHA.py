@@ -55,7 +55,7 @@ async def _(event):
    elif type == "text":
       return await text(event)
   else:
-    if 
+    return
 
 
 async def multibutton(event):
