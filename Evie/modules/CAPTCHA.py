@@ -113,12 +113,10 @@ async def _(event):
 
 chance = 3
  
-@register(pattern="^/start captcha(\_(.*))")
+@register(pattern="^/start captcha_(.*)")
 async def h(event):
- tata = event.pattern_match.group(1)
- data = tata.decode()
- chat = data.split("_", 1)[1]
  try:
+  chat = int(event.pattern_match.group(1))
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
