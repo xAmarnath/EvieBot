@@ -107,8 +107,8 @@ async def h(event):
   if not event.is_private:
    return
   chat = int(event.pattern_match.group(1))
-  x = randint(1,100)
-  y = randint(1,100)
+  x = random.randint(1,100)
+  y = random.randint(1,100)
   a = x + y
   d = random.randint(1, 100)
   b = random.randint(1, 100)
