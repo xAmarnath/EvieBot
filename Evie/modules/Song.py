@@ -174,7 +174,7 @@ async def deezr(v_url):
     c_time = time.time()
     title = rip_data["title"]
     if video:
-         await rkp.edit(f"Preparing to Upload Video:\n**{title}**\n**Requested by:** {event.sender.first_name}")
+         await rkp.edit(f"Preparing to Upload Video:\n**{title}**\n**Requested by:** {v_url.sender.first_name}")
          y = await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
