@@ -130,7 +130,7 @@ async def h(event):
             )]
         ]
   shuffle(keyboard)
-  shuffle(keyboard)
+  await asyncio.sleep(0.5)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
  except Exception as e:
   print(e)
