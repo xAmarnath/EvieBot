@@ -127,6 +127,7 @@ async def h(event):
                 data='paku'
             )]
         ]
+  shuffle(keyboard)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
  except Exception as e:
   print(e)
@@ -135,8 +136,7 @@ async def h(event):
 async def bak(event):
  user_id = event.sender_id
  await event.delete()
- await tbot.send_message(event.chat_id, "Successfully Verified, now you can message in the chat!")
-
+ await tbot.send_message(event.chat_id, "Successfully Verified✅, now you can message in the chat!")
 
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
