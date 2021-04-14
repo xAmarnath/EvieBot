@@ -692,7 +692,6 @@ async def _(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
 async def cbot(event):
-    chats = verified_user.find({})
     user_id = int(event.pattern_match.group(1))
     chat_id = event.chat_id
     if not event.sender_id == user_id:
@@ -701,7 +700,7 @@ async def cbot(event):
     if event.sender_id == user_id:
       try:
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
-            await event.answer("Yep you are verified as a human being")
-            await event.edit(buttons=None)
       except:
          pass
+      await event.answer("Yep you are verified as a human being")
+      await event.edit(buttons=None)
