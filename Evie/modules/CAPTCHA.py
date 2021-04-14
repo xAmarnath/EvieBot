@@ -99,7 +99,7 @@ async def _(event):
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
-    return
+    pass
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
   await event.reply(text, buttons=buttons)
