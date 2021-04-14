@@ -627,4 +627,3 @@ async def t(event):
         {"id": event.chat_id, "type": type, "time": 0}
     )
   await event.reply(f"Successfully set captchamode to **{type}**.")
-          return
