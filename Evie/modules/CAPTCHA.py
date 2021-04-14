@@ -91,6 +91,62 @@ async def _(event):
           time = c["time"]
   if not type:
     return
+  if not type == "math":
+     return
+  try:
+    await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
+  except:
+    pass
+  text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
+  await event.reply(text, buttons=buttons)
+
+
+@register(pattern="^/start math_(.*)")
+async def h(event):
+  if not event.is_private:
+   return
+  chat = int(event.pattern_match.group(1))
+  x = randint(1,100)
+  y = randint(1,100)
+  a = x + y
+  d = random.randint(1, 100)
+  b = random.randint(1, 100)
+  c = random.randint(1, 100)
+  keyboard = [
+            [Button.inline(
+                f"{a}",
+                data='sikle_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{b}",
+                data='babe'
+            ),],
+            [Button.inline(
+                f"{c}",
+                data='nide'
+            ),
+            Button.inline(
+                f"{d}",
+                data='nipa'
+            )]
+        ]
+  shuffle(keyboard)
+  await asyncio.sleep(0.5)
+  await tbot.send_message(event.chat_id, f"**What is the sum of {x} + {y}?**\n\nChoose the correct option from Below to get verified.", buttons=keyboard)
+
+@tbot.on(events.ChatAction())  # pylint:disable=E0602
+async def _(event):
+  if not event.user_joined:
+          return
+  user_id = event.user_id
+  chats = captcha.find({})
+  for c in chats:
+       if event.chat_id == c["id"]:
+          type = c["type"]
+          time = c["time"]
+  if not type:
+    return
   if not type == "text":
      return
   try:
