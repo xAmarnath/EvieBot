@@ -45,7 +45,7 @@ async def _(event):
           time = c["time"]
   if not type:
     return
-  if not type == "button":
+  if not type == "multibutton":
      return
   a_user = await event.get_user()
   mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -605,8 +605,8 @@ async def t(event):
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
      return await event.reply("Captcha is off for this Chat")
- if not arg == "button" and not arg == "text" and not arg == "math":
-   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/math/text")
+ if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
+   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
  type = arg
  if type:
   for c in chats:
@@ -631,5 +631,8 @@ async def t(event):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def babe(event):
+ #inline delete
+ if not event.chat.username == 'lunabotsupport':
+    return
  if not event.via_bot_id == None:
    await event.delete()
