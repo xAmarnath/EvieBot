@@ -98,6 +98,8 @@ async def _(event):
   await event.reply(text, buttons=buttons)
  except Exception as e:
   print(e)
+
+chance = 3
  
 @register(pattern="^/start captcha$")
 async def h(event):
@@ -136,10 +138,12 @@ async def h(event):
 async def bak(event):
  user_id = event.sender_id
  await event.delete()
- await tbot.send_message(event.chat_id, "Successfully Verified✅, now you can message in the chat!")
+ await event.edit("Successfully Verified✅, now you can message in the chat!", file=None, buttons=None)
 
 @tbot.on(events.CallbackQuery(pattern=r"exec"))
 async def bak(event):
+  global chance
+  chance -= 1
   await event.answer("Wrong try again❌")
   a = gen_captcha(8)
   b = gen_captcha(8)
@@ -167,7 +171,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  text = "Try again you have 2 chances left"
+  text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
