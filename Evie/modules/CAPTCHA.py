@@ -129,7 +129,7 @@ async def h(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data=f'pip_{}'.format(chat_id)
+                data='pip_{}'.format(chat_id)
             ),
             Button.inline(
                 f"{b}",
