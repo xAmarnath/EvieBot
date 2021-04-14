@@ -94,8 +94,6 @@ async def _(event):
     return
   if not type == "text":
      return
-  chat_id = event.chat_id
-  global chat_id
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
