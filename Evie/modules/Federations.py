@@ -1,7 +1,7 @@
 """
 Fully Written by RoseLoverX
 """
-from Evie import tbot, CMD_HELP, OWNER_ID
+from Evie import tbot, CMD_HELP, OWNER_ID, BOT_ID
 import os, re, csv, json, time, uuid, pytz
 from datetime import datetime
 from Evie.function import is_admin
@@ -953,6 +953,8 @@ async def ft(event):
           name = f["fed"]["fname"]
  user = await suck(event)
  user_id = user.id
+ if user_id == BOT_ID:
+   return await event.reply("Yeah I don't use Feds!")
  if user.bot:
   return await event.reply("Bots can't own federations.")
  fedora = sql.get_user_owner_fed_full(user_id)
