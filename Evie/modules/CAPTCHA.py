@@ -145,7 +145,8 @@ async def bak(event):
   chance -= 1
   await event.answer("Wrong try again❌")
   if chance == 0:
-     return await event.edit("Your chances are exchausted, verification failed❌")
+     chance += 3
+     return await event.edit("Your chances are exchausted, verification failed❌", file=None, buttons=None)
   a = gen_captcha(8)
   b = gen_captcha(8)
   c = gen_captcha(8)
