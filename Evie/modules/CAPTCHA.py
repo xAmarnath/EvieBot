@@ -187,7 +187,7 @@ async def bak(event):
         ]
   shuffle(keyboard)
   await asyncio.sleep(0.5)
-  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+  await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"nide(\_(.*))"))
 async def bak(event):
@@ -226,7 +226,7 @@ async def bak(event):
         ]
   shuffle(keyboard)
   await asyncio.sleep(0.5)
-  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+  await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"nipa(\_(.*))"))
 async def bak(event):
@@ -265,7 +265,7 @@ async def bak(event):
         ]
   shuffle(keyboard)
   await asyncio.sleep(0.5)
-  await tbot.send_message(event.chat_id, f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸", buttons=keyboard)
+  await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
