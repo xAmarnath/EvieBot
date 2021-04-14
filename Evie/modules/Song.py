@@ -82,13 +82,6 @@ async def yt(event):
         event.chat_id,
         file,
         thumb=downloaded_thumb,
-        attributes=[
-                DocumentAttributeAudio(
-                    duration=int(ytdl_data["duration"]),
-                    title=str(ytdl_data["title"]),
-                    performer=(ytdl_data["uploader"]),
-                    waveform='256',
-                )
             ],
     )
     await pablo.delete()
