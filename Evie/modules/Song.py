@@ -72,6 +72,7 @@ async def yt(event):
         await pablo.edit(f"**Failed To Download** \n**Error :** `{str(e)}`")
         return
     c_time = time.time()
+    await tbot.send_message(event.chat_id, f"{yt_id}")
     capy = f"**Song Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     file_stark = f"{ytdl_data['id']}.mp3"
     file=open(file_stark, "rb")
@@ -82,6 +83,14 @@ async def yt(event):
         event.chat_id,
         file,
         thumb=downloaded_thumb,
+        attributes=[
+                DocumentAttributeAudio(
+                    duration=int(ytdl_data["duration"]),
+                    title=str(ytdl_data["title"]),
+                    performer=(ytdl_data["uploader"]),
+                    waveform='256',
+                )
+     ],
     )
     await pablo.delete()
     for files in (downloaded_thumb, file_stark):
