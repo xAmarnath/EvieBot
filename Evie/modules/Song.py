@@ -46,10 +46,6 @@ async def yt(event):
     thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
-    image = Image.open(downloaded_thumb)
-    new_image = image.resize((200, 280))
-    new_image.save('image69.jpg')
-    thumb = './image69.jpg'
     opts = {
         "format": "bestaudio",
         "addmetadata": True,
@@ -61,8 +57,8 @@ async def yt(event):
         "postprocessors": [
             {
                 "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "480",
+                "preferredcodec": "m4a",
+                "preferredquality": "720",
             }
         ],
         "outtmpl": "%(id)s.mp3",
@@ -80,12 +76,13 @@ async def yt(event):
     file_stark = f"{ytdl_data['id']}.mp3"
     file=open(file_stark, "rb")
     author = ytdl_data["uploader"]
+    await tbot.send_file(event.chat_id, downloaded_thumb)
     await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{author}**")
     async with tbot.action(event.chat_id, 'audio'):
        await tbot.send_file(
         event.chat_id,
         file,
-        thumb=thumb,
+        thumb=downloaded_thumb,
         supports_streaming=True,
         force_document=False,
         attributes=[
