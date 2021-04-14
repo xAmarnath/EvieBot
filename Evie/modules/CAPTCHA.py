@@ -116,8 +116,8 @@ chance = 3
 @register(pattern="^/start captcha")
 async def h(event):
  global chat
- if global chat == None:
-   return await event.reply("This Captcha Has Expired")
+ if chat == None:
+   return await event.reply("This **Captcha** Has Expired or isn't for you!")
  try:
   a = gen_captcha(8)
   b = gen_captcha(8)
