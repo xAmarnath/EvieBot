@@ -101,7 +101,7 @@ async def _(event):
   except:
     pass
   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha")
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if not time == 0:
@@ -113,11 +113,11 @@ async def _(event):
 
 chance = 3
  
-@register(pattern="^/start captcha")
+@register(pattern="^/start captcha(\_(.*))")
 async def h(event):
- global chat
- if chat == None:
-   return await event.reply("This **Captcha** Has Expired or isn't for you!")
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ chat = data.split("_", 1)[1]
  try:
   a = gen_captcha(8)
   b = gen_captcha(8)
