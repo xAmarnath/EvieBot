@@ -13,7 +13,7 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.capt
 
-
+chat = None
 from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
 
@@ -94,8 +94,8 @@ async def _(event):
     return
   if not type == "text":
      return
-  global event_chat
-  event_chat = event.chat_id
+  global chat
+  chat = event.chat_id
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -115,7 +115,9 @@ chance = 3
  
 @register(pattern="^/start captcha")
 async def h(event):
- global event_chat
+ global chat
+ if global chat == None:
+   return await event.reply("This Captcha Has Expired")
  try:
   a = gen_captcha(8)
   b = gen_captcha(8)
@@ -127,7 +129,7 @@ async def h(event):
   keyboard = [
             [Button.inline(
                 f"{a}",
-                data='pip_{}'.format(event_chat)
+                data='pip_{}'.format(chat)
             ),
             Button.inline(
                 f"{b}",
@@ -145,6 +147,7 @@ async def h(event):
   shuffle(keyboard)
   await asyncio.sleep(0.5)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
+  chat = None
  except Exception as e:
   print(e)
 
