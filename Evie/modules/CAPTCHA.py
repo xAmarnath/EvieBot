@@ -13,6 +13,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.capt
+welcome = db.wlc
 
 from Evie.modules.sql.welcome_sql import get_current_welcome_settings
 
@@ -44,16 +45,17 @@ async def _(event):
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
-  if not type:
-    return
-  if type == "multibutton":
-     return await multibutton(event)
-  elif type == "math":
-     return await math(event)
-  elif type == "button":
-     return await button(event)
-  elif type == "text":
-     return await text(event)
+  if type:
+   if type == "multibutton":
+      return await multibutton(event)
+   elif type == "math":
+      return await math(event)
+   elif type == "button":
+      return await button(event)
+   elif type == "text":
+      return await text(event)
+  else:
+    if 
 
 
 async def multibutton(event):
@@ -676,44 +678,6 @@ async def t(event):
  except Exception as e:
   print(e)
             
- 
-@register(pattern="^/captchamode ?(.*)")
-async def t(event):
- arg = event.pattern_match.group(1)
- chats = captcha.find({})
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only Admins can execute this command!")
- if not arg:
-   for c in chats:
-      if event.chat_id == c["id"]:
-         type = c["type"]
-   if type:
-     return await event.reply(f"Current captcha mode is **{type}**")
-   else:
-     return await event.reply("Captcha is currently off for this Chat")
- if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
-   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- type = arg
- if type:
-  for c in chats:
-      if event.chat_id == c["id"]:
-          to_check = get_chat(id=event.chat_id)
-          captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                },
-                {"$set": {"type": type}},
-            )
-          await event.reply(f"Successfully updated captchamode to **{type}**")
-          return
-  captcha.insert_one(
-        {"id": event.chat_id, "type": type, "time": 0}
-    )
-  await event.reply(f"Successfully set captchamode to **{type}**.")
-
 
 @tbot.on(events.NewMessage(pattern=None))
 async def babe(event):
@@ -788,3 +752,75 @@ async def cbot(event):
          pass
       await event.answer("Yep you are verified as a human being")
       await event.edit(buttons=None)
+
+@register(pattern="^/captchamode ?(.*)")
+async def t(event):
+ arg = event.pattern_match.group(1)
+ chats = captcha.find({})
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only Admins can execute this command!")
+ if not arg:
+   for c in chats:
+      if event.chat_id == c["id"]:
+         type = c["type"]
+   if type:
+     return await event.reply(f"Current captcha mode is **{type}**")
+   else:
+     return await event.reply("Captcha is currently off for this Chat")
+ if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
+   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
+ type = arg
+ if type:
+  for c in chats:
+      if event.chat_id == c["id"]:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                },
+                {"$set": {"type": type}},
+            )
+          await event.reply(f"Successfully updated captchamode to **{type}**")
+          return
+  captcha.insert_one(
+        {"id": event.chat_id, "type": type, "time": 0}
+    )
+  await event.reply(f"Successfully set captchamode to **{type}**.")
+
+
+@register(pattern="^/welcome ?(.*)")
+async def q(event):
+ arg = event.pattern_match.group(1)
+ if not arg:
+  cp = captcha.find({})
+  for c in cp:
+      if event.chat_id == c["id"]:
+         tp = c["type"]
+         tym = c["time"]
+  if tp:
+    calt = "True"
+    mode = tp
+    if time:
+     set = time
+    else:
+     set = "None"
+  else:
+    calt = "False"
+    mode = "None"
+    set = "None"
+  cws = get_current_welcome_settings(event.chat_id)
+  if cws:
+    current_saved_welcome_message = cws.custom_welcome_message
+  else:
+    current_saved_welcome_message = "No Custom Msg"
+  chats = welcome.find({})
+  for c in chats:
+   if event.chat_id == c["id"]:
+      settings = c["type"]
+  if settings == "on":
+    return await event.reply(f"I am currently welcoming users: **True**\nCaptcha Status: **{calt}**\nCaptcha Mode: **{mode}**\nCaptcha KickTime: **{set}**\nCaptcha Rules: **Disabled**\nCurrent Welcome Message:\n\n{current_saved_welcome_message}")
+
+
