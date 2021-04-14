@@ -51,7 +51,31 @@ async def _(event):
      return
   a_user = await event.get_user()
   mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
-  text = (f"Welcome, {mention}\nAre you human?\n\nClick on the button which include this emoji {emoji.CHECK_MARK_BUTTON}.")
+  cws = get_current_welcome_settings(event.chat_id)
+  if cws:
+     a_user = await event.get_user()
+     title = event.chat.title
+     mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+     first = a_user.first_name
+     last = a_user.last_name
+     if last:
+         fullname = f"{first} {last}"
+     else:
+         fullname = first
+     userid = a_user.id
+     current_saved_welcome_message = cws.custom_welcome_message
+     text = current_saved_welcome_message.format(
+                                mention=mention,
+                                title=title,
+                                first=first,
+                                last=last,
+                                fullname=fullname,
+                                userid=userid,
+                            )
+     text += "\n\n**Captcha Verification**"
+  else:
+   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  text += f"\n\nClick on the button which include this emoji {emoji.CHECK_MARK_BUTTON}."
   keyboard = [
             Button.inline(
                 f"{emoji.BRAIN}",
@@ -100,7 +124,30 @@ async def _(event):
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
     pass
-  text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  cws = get_current_welcome_settings(event.chat_id)
+  if cws:
+     a_user = await event.get_user()
+     title = event.chat.title
+     mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+     first = a_user.first_name
+     last = a_user.last_name
+     if last:
+         fullname = f"{first} {last}"
+     else:
+         fullname = first
+     userid = a_user.id
+     current_saved_welcome_message = cws.custom_welcome_message
+     text = current_saved_welcome_message.format(
+                                mention=mention,
+                                title=title,
+                                first=first,
+                                last=last,
+                                fullname=fullname,
+                                userid=userid,
+                            )
+     text += "\n\n**Captcha Verification**"
+  else:
+   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
 
@@ -287,7 +334,30 @@ async def _(event):
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
     pass
-  text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
+  cws = get_current_welcome_settings(event.chat_id)
+  if cws:
+     a_user = await event.get_user()
+     title = event.chat.title
+     mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+     first = a_user.first_name
+     last = a_user.last_name
+     if last:
+         fullname = f"{first} {last}"
+     else:
+         fullname = first
+     userid = a_user.id
+     current_saved_welcome_message = cws.custom_welcome_message
+     text = current_saved_welcome_message.format(
+                                mention=mention,
+                                title=title,
+                                first=first,
+                                last=last,
+                                fullname=fullname,
+                                userid=userid,
+                            )
+     text += "\n\n**Captcha Verification**"
+  else:
+   text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
