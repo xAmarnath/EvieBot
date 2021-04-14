@@ -33,7 +33,7 @@ from telethon.tl.types import ChatBannedRights
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
-
+"""
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
@@ -147,7 +147,7 @@ async def cbot(event):
             await event.edit(buttons=None)
       except Exception as e:
          print(e)
-
+"""
 
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
 async def _(event):
