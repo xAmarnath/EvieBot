@@ -129,7 +129,10 @@ async def multibutton(event):
 
 async def math(event):
   user_id = event.user_id
+  lbutton = []
+  longbutton = []
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
+  longbutton.append(buttons)
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
@@ -148,13 +151,11 @@ async def math(event):
         button = options.strip()
         if "•" in button:
            mbutton = button.split("•")
-           lbutton = []
            for i in mbutton:
              params = re.findall(r"\'(.*?)\'", i) or re.findall(
                           r"\"(.*?)\"", i
                           )
              lbutton.append(params)
-           longbutton = []
            for c in lbutton:
               butto = [Button.url(*c)]
               longbutton.append(butto)
@@ -164,7 +165,7 @@ async def math(event):
            r"\"(.*?)\"", button
                  )
            butto = [Button.url(*params)]
-           butt = butto
+           butt = butto + buttons
       except BaseException as e:
             print(e)
             butt = None
