@@ -193,7 +193,7 @@ async def math(event):
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   await event.reply(f"{butt}")
-  await event.reply(text, buttons=buttons)
+  await event.reply(text, buttons=butt)
   WELCOME_DELAY_KICK_SEC = time
   if time:
    if not time == 0:
