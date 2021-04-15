@@ -16,10 +16,11 @@ def get_chat(id):
 @tbot.on(events.NewMessage(pattern="^[!/]purge ?(.*)"))
 async def purge(event):
  args = event.pattern_match.group(1)
- try:
-  k = int(args)
- except:
-   return
+ if args:
+  try:
+   k = int(args)
+  except:
+    return
  if event.is_private:
   return
  if not await is_admin(event, event.sender_id):
