@@ -164,8 +164,8 @@ async def math(event):
            params = re.findall(r"\'(.*?)\'", button) or re.findall(
            r"\"(.*?)\"", button
                  )
-           butto = [Button.url(*params)]
-           butt = butto + buttons
+           butto = [[Button.url(*params)], buttons]
+           butt = butto
       except BaseException as e:
             print(e)
             butt = None
