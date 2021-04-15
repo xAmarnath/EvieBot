@@ -101,7 +101,7 @@ async def help_menu(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"soon"))
 async def soon(event):
-    buttons=[[Button.inline("About Me", data="about_me"), Button.inline("Commands", data="help_menu"),],[Button.inline("Go Back", data="reopen_again"),],]
+    buttons=[[Button.inline("About Me", data="about_me"), Button.inline("T & C", data='terms')], Button.inline("Commands", data="help_menu"),[Button.inline("Go Back", data="reopen_again"),],]
     await event.edit(ad_caption, buttons=buttons)
 
 @tbot.on(events.CallbackQuery(pattern=r"about_me"))
