@@ -100,6 +100,7 @@ async def dban(event):
  user, args = await get_user(event)
  userid = user.id
  h = await anonymous(event, userid)
+ sender_id = event.sender_id
  if not h:
   if not sender_id == OWNER_ID:
     if not await is_admin(event, sender_id):
