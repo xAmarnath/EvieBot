@@ -196,7 +196,7 @@ async def math(event):
             [Button.inline(
                 f"{a}",
                 data='sikle_{}'.format(chat)
-            ), butt]
+            ),] butt]
   await event.reply(text, buttons=keyboard)
   WELCOME_DELAY_KICK_SEC = time
   if time:
