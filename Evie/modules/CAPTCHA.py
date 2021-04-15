@@ -849,8 +849,8 @@ async def ba(event):
     if mode == "off":
       return await event.reply("captcha is not enabled here in the first place!")
     elif mode == "on":
-      to_check = get_chat(id=event.chat_id)
-      captcha.update_one(
+     to_check = get_chat(id=event.chat_id)
+     captcha.update_one(
                 {
                     "_id": to_check["_id"],
                     "id": to_check["id"],
