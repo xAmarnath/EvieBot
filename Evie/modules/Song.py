@@ -190,3 +190,19 @@ async def deezr(v_url):
    os.system("rm -rf *.jpg")
  except:
      pass
+
+@register(pattern="^/saavn ?(.*)")
+async def yt(event):
+ input_str = event.pattern_match.group(1)
+ pablo = await event.reply(f"Getting {input_str} From Youtube Servers. Please Wait.")
+ if not input_str:
+     await pablo.edit(
+         "Please Give Me A Valid Input."
+     )
+     return
+ 
+    
+
+
+
+
