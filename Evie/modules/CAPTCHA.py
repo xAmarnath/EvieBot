@@ -41,11 +41,17 @@ async def _(event):
           return
   user_id = event.user_id
   chats = captcha.find({})
+  type = None
+  mode = None
+  time = None
   for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
-  if type:
+          mode = c["mode"]
+  if mode == None or mode == "off":
+      return
+  if not type == None:
    if type == "multibutton":
       return await multibutton(event)
    elif type == "math":
@@ -701,8 +707,6 @@ async def babe(event):
     return
  if not event.via_bot_id == None:
    await event.delete()
-
-
 
 async def button(event):
   user_id = event.user_id
