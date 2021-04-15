@@ -21,8 +21,13 @@ pagenumber = db.pagenumber
 
 
 about = "**About Me**\n\nMy name is Evie, A group management bot who can take care of your groups with automated regular admin actions!\n\n**My Software Version:** 2.0.1\n**Telethon Version:** 1.21.1\n\n**My Developers:**\n• @RoseLoverX\n• @LegendX22\n• @Proboyx\n\nUpdates Channel: [Click Here](t.me/lunabotnews)\nSupport Chat: [Click Here](t.me/lunabotsupport)\n\nAnd finally thanks for Supporting me😘"
-ad_caption = "Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!\n\nJoin @Lunabotnews for updates.\n@Lunabotsupport for help and support\n\nYou can checkout more about me via following buttons."
-pm_caption = """ 
+pm_caption = """
+Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!
+Hit /help to find out more about how to use me to my full potential.
+
+You can checkout more about me via following buttons.
+"""
+ad_caption = """ 
 Hey! My name is Evie. I am a group management bot, here to help you get around and keep the order in your groups!
 I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
 
