@@ -193,10 +193,10 @@ async def math(event):
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   keyboard = [
-            [Button.inline(
+            Button.inline(
                 f"{a}",
                 data='sikle_{}'.format(chat)
-            ),] butt]
+            ), butt]
   await event.reply(text, buttons=keyboard)
   WELCOME_DELAY_KICK_SEC = time
   if time:
