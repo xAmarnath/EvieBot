@@ -81,8 +81,7 @@ async def yt(event):
     file=open(file_stark, "rb")
     author = ytdl_data["uploader"]
     await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{author}**\n**Requested By:** {event.sender.first_name}")
-    async with tbot.action(event.chat_id, 'audio'):
-       await tbot.send_file(
+    await tbot.send_file(
         event.chat_id,
         file,
         thumb=thumb,
