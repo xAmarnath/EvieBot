@@ -76,7 +76,7 @@ async def _(event):
   if msg.startswith("/") or msg.startswith("@") or msg.startswith("."):
     return
   lan = translator.detect(msg)
-  if not "en" in lan and not lan == "":
+  if not "en" in lan and not lan == "" and not lan == "ru":
      test = translator.translate(msg, lang_tgt="en")
   else:
      test = msg
@@ -101,7 +101,7 @@ async def _(event):
   result = result.replace("Aco", "Evie")
   result = result.replace("<a href=\\", "<a href =")
   result = result.replace("<\/a>", "</a>")
-  if not "en" in lan and not lan == "":
+  if not "en" in lan and not lan == "" and not lan == "ru":
     finale = translator.translate(result, lang_tgt=lan[0])
   else:
     finale = result
