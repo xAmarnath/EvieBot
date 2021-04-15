@@ -836,7 +836,7 @@ async def ba(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set: {"mode": "on", "type": type, "time": time}},
+                {"$set": {"mode": "on", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is enabled with mode **{type}**")
    else:
@@ -858,7 +858,7 @@ async def ba(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set: {"mode": "off", "type": type, "time": time}},
+                {"$set": {"mode": "off", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is successfully disabled")
    else:
