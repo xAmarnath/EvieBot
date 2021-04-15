@@ -33,4 +33,4 @@ async def purge(event):
    await tbot.delete_messages(event.chat_id, messages)
  except MessageDeleteForbiddenError:
    return await event.reply("I can't delete messages that are too old!")
- await event.reply(f"{len(messages)}")
+ await event.reply(f"{len(messages)}-{args}")
