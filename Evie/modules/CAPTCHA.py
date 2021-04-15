@@ -146,7 +146,7 @@ async def math(event):
         wlc, options = cws.custom_welcome_message.split("|")
         wlc = wlc.strip()
         button = options.strip()
-         if "•" in button:
+        if "•" in button:
            mbutton = button.split("•")
            lbutton = []
            for i in mbutton:
@@ -159,7 +159,7 @@ async def math(event):
               butto = [Button.url(*c)]
               longbutton.append(butto)
            buttons += longbutton
-         else:
+        else:
            params = re.findall(r"\'(.*?)\'", button) or re.findall(
            r"\"(.*?)\"", button
                  )
