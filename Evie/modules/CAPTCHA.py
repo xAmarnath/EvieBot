@@ -143,7 +143,7 @@ async def math(event):
   if cws:
      if "|" in cws.custom_welcome_message:
       try:
-        wlc, options = snip.reply.split("|")
+        wlc, options = cws.custom_welcome_message.split("|")
         wlc = wlc.strip()
         button = options.strip()
         if "•" in button:
