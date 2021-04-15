@@ -798,7 +798,7 @@ async def t(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set": {"type": type}, {"mode": "on"}},
+                {"$set": {"type": type, "mode": "on"},
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
@@ -836,7 +836,7 @@ async def ba(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set: {"mode": "on"}, {"type": type}, {"time": time}},
+                {"$set: {"mode": "on", "type": type, "time": time},
             )
      return await event.reply(f"Captcha is enabled with mode **{type}**")
    else:
@@ -858,7 +858,7 @@ async def ba(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set: {"mode": "off"}, {"type": type}, {"time": time}},
+                {"$set: {"mode": "off", "type": type, "time": time},
             )
      return await event.reply(f"Captcha is successfully disabled")
    else:
@@ -931,6 +931,7 @@ Examples:
 NOTE:
 captchakicktime now only accept time in Seconds, will fix soon.
 captchas Work with or without welcome messages being set.
+not finsihed writing.
 """
 
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
