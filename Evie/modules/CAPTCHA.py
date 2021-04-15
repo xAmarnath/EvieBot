@@ -129,7 +129,7 @@ async def multibutton(event):
 
 async def math(event):
   user_id = event.user_id
-  buttons += Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
@@ -165,7 +165,8 @@ async def math(event):
                  )
            butto = [Button.url(*params)]
            buttons += butto
-      except BaseException:
+      except BaseException as e:
+            print(e)
             wlc = cws.custom_welcome_message
      else:
        wlc = cws.custom_welcome_message
