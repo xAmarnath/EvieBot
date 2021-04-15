@@ -131,7 +131,6 @@ async def math(event):
   user_id = event.user_id
   lbutton = []
   longbutton = []
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
@@ -193,10 +192,7 @@ async def math(event):
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   keyboard = [
-            Button.inline(
-                f"{a}",
-                data='sikle_{}'.format(chat)
-            ), butt]
+            Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id)), butt]
   await event.reply(text, buttons=keyboard)
   WELCOME_DELAY_KICK_SEC = time
   if time:
