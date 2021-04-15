@@ -109,7 +109,10 @@ async def mm(event):
    await tbot.delete_messages(event.chat_id, messages)
  except MessageDeleteForbiddenError:
    return await event.reply("I can't delete messages that are too old!")
-
+ chats = pugre.find({})
+ for c in chats:
+   if event.chat_id == c["id"]:
+     pugre.delete_one({"id": event.chat_id})
   
 
 
