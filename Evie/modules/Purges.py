@@ -175,7 +175,7 @@ async def purge(event):
 async def sc(event):
  await event.reply("Where are you...!\nSmelly cat smellly cat..\n( ･ั﹏･ั)")
 
-__help__ """
+__help__ = """
 Need to delete lots of messages? That's what purges are for!
 
 **Admin commands:**
