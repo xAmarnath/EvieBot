@@ -8,7 +8,7 @@ Mark = []
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-purge = db.purge
+pugre = db.purge
 
 def get_chat(id):
     return purge.find_one({"id": id})
@@ -57,7 +57,7 @@ async def mm(event):
  if not reply_msg:
   return await event.reply("Reply to a message to show me where to purge from.")
  msg_id = reply_msg.id
- chats = purge.find({})
+ chats = pugre.find({})
  for c in chats:
   if event.chat_id == c["id"]:
     to_check = get_chat(id=event.chat_id)
