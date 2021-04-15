@@ -57,7 +57,6 @@ async def mm(event):
   return await event.reply("Only admins can execute this command")
  if not await can_del(message=event):
   return await event.reply("You are missing delmessage rights to use this command!")
- global Mark
  reply_msg = await event.get_reply_message()
  if not reply_msg:
   return await event.reply("Reply to a message to show me where to purge from.")
@@ -78,7 +77,40 @@ async def mm(event):
  pugre.insert_one(
         {"id": event.chat_id, "msg_id": msg_id}
     )
- await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", replt_to=msg_id)
+ await tbot.send_message("Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", reply_to=msg_id)
 
- 
+@tbot.on(events.NewMessage(pattern="^[!/]purgeto"))
+async def mm(event):
+ if event.is_private:
+  return
+ if not await is_admin(event, event.sender_id):
+  return await event.reply("Only admins can execute this command")
+ if not await can_del(message=event):
+  return await event.reply("You are missing delmessage rights to use this command!")
+ reply_msg = await event.get_reply_message()
+ if not reply_msg:
+   return await event.reply("Reply to a message to let me know what to delete.")
+ msg_id = None
+ chats = pugre.find({})
+ for c in chats:
+  if event.chat_id == c["id"]:
+    msg_id = c["msg_id"]
+ if msg_id == None:
+   return await event.reply("You can only use this command after having used the /purgefrom command.")
+ messages = []
+ limit = 300
+ delete_to = event.reply_to_msg_id
+ messages.append(event.reply_to_msg_id)
+ for id in range(msg_id, delete_to + 1):
+   messages.append(id)
+   if len(messages) == limit:
+       break
+ try:
+   await tbot.delete_messages(event.chat_id, messages)
+ except MessageDeleteForbiddenError:
+   return await event.reply("I can't delete messages that are too old!")
+
+  
+
+
 
