@@ -867,10 +867,6 @@ async def ba(event):
     )
     return await event.reply(f"Successfully disabled captcha mode!")
 
-    
-
-
-
 @register(pattern="^/welcome ?(.*)")
 async def q(event):
  try:
