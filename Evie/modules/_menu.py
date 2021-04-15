@@ -40,12 +40,12 @@ With You
 - If You Found Any Spammer, Scammer 
 Or Anyone Doing Wrong Things
 Report Us At--> @Lunabotsupport
-"""
 
 Note: Terms and Conditions will be change anytime!
 
-Updates Channel: @AlisaUpdates
-Support Chat: @AlisaSupportChat
+Updates Channel: @Lunabotnews
+Support Chat: @Lunabotsupport
+"""
 pmt = """ 
 Hey! My name is Evie. I am a group management bot, here to help you get around and keep the order in your groups!
 I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
