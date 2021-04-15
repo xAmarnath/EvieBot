@@ -812,12 +812,16 @@ async def ba(event):
  pro = ["on", "enable", "yes"]
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
+ type = None
+ time = None
+ mode = None
  for c in chats:
       if event.chat_id == c["id"]:
          mode = c["mode"]
          type = c["type"]
          time = c["time"]
- if not type:
+       
+ if type == None:
     type = "button"
  if not time:
     time = 0
@@ -873,6 +877,7 @@ async def q(event):
   arg = event.pattern_match.group(1)
   if not arg:
    cp = captcha.find({})
+   tp = None
    for c in cp:
       if event.chat_id == c["id"]:
          tp = c["type"]
