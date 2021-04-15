@@ -145,7 +145,7 @@ async def math(event):
       try:
         wlc, options = snip.reply.split("|")
         wlc = wlc.strip()
-        kb = options.strip()
+        button = options.strip()
         if "•" in button:
            mbutton = button.split("•")
            lbutton = []
@@ -166,7 +166,7 @@ async def math(event):
            butto = [Button.url(*params)]
            buttons += butto
       except BaseException:
-            wlc = wlc.strip()
+            wlc = cws.custom_welcome_message
             butto = None
      else:
        wlc = cws.custom_welcome_message
