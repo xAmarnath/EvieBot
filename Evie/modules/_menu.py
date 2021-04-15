@@ -27,6 +27,25 @@ Hit /help to find out more about how to use me to my full potential.
 
 You can checkout more about me via following buttons.
 """
+terms = """
+**Terms And Conditions:**
+
+- No One's Group Id Or Data 
+Is Saved!
+- Only Your Name, Id And Username
+Are Saved!
+- Don't Spam The Bot, Else Ready
+For The Things Going To Be Happen
+With You
+- If You Found Any Spammer, Scammer 
+Or Anyone Doing Wrong Things
+Report Us At--> @Lunabotsupport
+"""
+
+Note: Terms and Conditions will be change anytime!
+
+Updates Channel: @AlisaUpdates
+Support Chat: @AlisaSupportChat
 pmt = """ 
 Hey! My name is Evie. I am a group management bot, here to help you get around and keep the order in your groups!
 I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
@@ -104,10 +123,16 @@ async def soon(event):
     buttons=[[Button.inline("About Me", data="about_me"), Button.inline("T & C", data="terms")], [Button.inline("Commands", data="help_menu"),],[Button.inline("Go Back", data="reopen_again"),],]
     await event.edit(ad_caption, buttons=buttons)
 
+
 @tbot.on(events.CallbackQuery(pattern=r"about_me"))
 async def soon(event):
     buttons=[Button.inline("Go Back", data="soon"),]
     await event.edit(about, buttons=buttons)
+
+@tbot.on(events.CallbackQuery(pattern=r"terms"))
+async def soon(event):
+  buttons=[Button.inline("Go Back", data="soon"),]
+  await event.edit(terms, buttons=buttons)
 
 @tbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"us_plugin_(.*)")))
 async def on_plug_in_callback_query_handler(event):
