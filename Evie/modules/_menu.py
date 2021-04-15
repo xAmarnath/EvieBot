@@ -20,7 +20,7 @@ pagenumber = db.pagenumber
 
 
 
-about = "**About Me**\n\nMy name is Evie, A group management bot who can take care of your groups with automated regular admin actions!\n\n**My Software Version:** 2.0.1\n**Telethon Version:** 1.21.1\n\n**My Developers:**\n• @RoseLoverX\n• @LegendX22\n• @Proboyx\n\nUpdates Channel: [Click Here](t.me/lunabotnews)\nSupport Chat: [Click Here](t.me/lunabotsupport)\n\nAnd finally thanks for Supporting me😘"
+about = "**About Me**\n\nMy name is Evie, A group management bot who can take care of your groups with automated regular admin actions!\n\n**My Software Version:** 2.0.4\n**Telethon Version:** 1.21.1\n\n**My Developers:**\n• @RoseLoverX\n\nUpdates Channel: [Click Here](t.me/lunabotnews)\nSupport Chat: [Click Here](t.me/lunabotsupport)\n\nAnd finally thanks for Supporting me😘"
 pm_caption = """
 Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!
 Hit /help to find out more about how to use me to my full potential.
@@ -127,7 +127,7 @@ async def soon(event):
 @tbot.on(events.CallbackQuery(pattern=r"about_me"))
 async def soon(event):
     buttons=[Button.inline("Go Back", data="soon"),]
-    await event.edit(about, buttons=buttons)
+    await event.edit(about, buttons=buttons, link_preview=False)
 
 @tbot.on(events.CallbackQuery(pattern=r"terms"))
 async def soon(event):
