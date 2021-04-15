@@ -77,7 +77,7 @@ async def mm(event):
  pugre.insert_one(
         {"id": event.chat_id, "msg_id": msg_id}
     )
- await tbot.send_message("Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", reply_to=msg_id)
+ await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", reply_to=msg_id)
 
 @tbot.on(events.NewMessage(pattern="^[!/]purgeto"))
 async def mm(event):
