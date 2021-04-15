@@ -267,13 +267,14 @@ async def yt(event):
         thumb = None
     upteload = """
 Uploading...
-Song name - {}
-By - {}
+Song name - **{}**
+By - **{}**
 """.format(
         rip_data["title"], rip_data["uploader"]
     )
     await x.edit(f"`{upteload}`")
-    await tbot.send_file(
+    async with tbot.action(event.chat_id, 'audio'):
+     await tbot.send_file(
         ult.chat_id,
         f"{rip_data['id']}.mp3",
         thumb=thumb,
