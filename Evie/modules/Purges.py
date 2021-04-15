@@ -15,13 +15,17 @@ def get_chat(id):
 
 @tbot.on(events.NewMessage(pattern="^[!/]purge ?(.*)"))
 async def purge(event):
+ args = event.pattern_match.group(1)
+ try:
+  k = int(args)
+ except:
+   return
  if event.is_private:
   return
  if not await is_admin(event, event.sender_id):
   return await event.reply("Only admins can execute this command")
  if not await can_del(message=event):
   return await event.reply("You are missing DelMessage rights to use this command!")
- args = event.pattern_match.group(1)
  reply_msg = await event.get_reply_message()
  if not reply_msg:
   return await event.reply("Reply to a message to show me where to purge from.")
@@ -69,11 +73,11 @@ async def mm(event):
             },
              {"$set": {"msg_id": msg_id}},
             )
-    return await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.")
+    return await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", reply_to=msg_id)
  pugre.insert_one(
         {"id": event.chat_id, "msg_id": msg_id}
     )
- await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.")
+ await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.", replt_to=msg_id)
 
  
 
