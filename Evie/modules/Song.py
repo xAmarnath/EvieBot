@@ -271,7 +271,7 @@ By - **{}**
 """.format(
         rip_data["title"], rip_data["uploader"]
     )
-    await x.edit(f"`{upteload}`")
+    await x.edit(f"{upteload}")
     async with tbot.action(event.chat_id, 'audio'):
      await tbot.send_file(
         ult.chat_id,
