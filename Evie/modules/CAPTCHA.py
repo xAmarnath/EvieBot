@@ -12,7 +12,7 @@ from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-captcha = db.capt
+captcha = db.capta
 welcome = db.wlc
 
 from Evie.modules.sql.welcome_sql import get_current_welcome_settings
@@ -45,7 +45,6 @@ async def _(event):
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
-  if 
   if type:
    if type == "multibutton":
       return await multibutton(event)
