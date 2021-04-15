@@ -19,7 +19,7 @@ from youtube_dl.utils import (
 
 
 
-@register(pattern="^/song ?(.*)")
+@register(pattern="^/ytmusic ?(.*)")
 async def yt(event):
  try:
     input_str = event.pattern_match.group(1)
@@ -191,7 +191,7 @@ async def deezr(v_url):
  except:
      pass
 
-@register(pattern="^/ytmusic ?(.*)")
+@register(pattern="^/song ?(.*)")
 async def yt(event):
     ult = event
     url = event.pattern_match.group(1)
