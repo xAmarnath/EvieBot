@@ -836,7 +836,7 @@ async def fstat(event):
      return await event.reply("You need to be an admin to do this!")
  args = event.pattern_match.group(2)
  if args:
-  if len(args) > 16:
+  if len(args) >= 16:
     info = sql.get_fed_info(args)
     if not info:
       return await event.reply("There is no federation with this FedID.")
@@ -865,7 +865,6 @@ async def fstat(event):
    user_id = person.id
    replied_user = await tbot(GetFullUserRequest(user_id))
    fname = replied_user.user.first_name
- 
  else:
    if event.reply_to_msg_id:
       msg = await event.get_reply_message()
