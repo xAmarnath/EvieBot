@@ -1,5 +1,6 @@
 from Evie import tbot, CMD_HELP, MONGO_DB_URI
 from telethon import events, Button
+from Evie.events import register
 from Evie.function import can_del, is_admin
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 from pymongo import MongoClient
@@ -169,6 +170,10 @@ async def purge(event):
     await tbot.delete_messages(chat, del_message)
  except MessageDeleteForbiddenError:
     return await event.reply("I can't delete messages that are too old!")
+
+@register(pattern="^/smellycat")
+async def sc(event):
+ await event.reply("Where are you...!\nSmelly cat smellly cat..\n( ･ั﹏･ั)")
 
 __help__ """
 Need to delete lots of messages? That's what purges are for!
