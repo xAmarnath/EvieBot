@@ -21,7 +21,7 @@ async def purge(event):
  message_id = reply_msg.id
  delete_to = event.message.id
  if args:
-  limit = args
+  limit = int(args)
  else:
   limit = 100
  messages.append(event.reply_to_msg_id)
