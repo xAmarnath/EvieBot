@@ -170,6 +170,7 @@ async def math(event):
            wlc = cws.custom_welcome_message
      else:
        wlc = cws.custom_welcome_message
+       butt = None
      a_user = await event.get_user()
      title = event.chat.title
      mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
