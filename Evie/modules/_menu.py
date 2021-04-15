@@ -27,7 +27,7 @@ Hit /help to find out more about how to use me to my full potential.
 
 You can checkout more about me via following buttons.
 """
-ad_caption = """ 
+pmt = """ 
 Hey! My name is Evie. I am a group management bot, here to help you get around and keep the order in your groups!
 I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
 
@@ -39,7 +39,7 @@ Helpful commands:
 If you have any bugs or questions on how to use me, have a look at my website, or head to @Lunabotsupport.
  All commands can be used with the following: / !
 """
-pmt = "Hello there! I'm Evie\nI'm a Telethon Based group management bot\n with a Much More! Have a look\nat the following for an idea of some of \nthe things I can help you with.\n\nMain commands available:\n/start : Starts me, can be used to check i'm alive or not.\n/help : PM's you this message.\nExplore My Commands🙃."
+ad_caption = "Hello there! I'm Evie\nI'm a Telethon Based group management bot\n with a Much More! Have a look\nat the following for an idea of some of \nthe things I can help you with.\n\nMain commands available:\n/start : Starts me, can be used to check i'm alive or not.\n/help : PM's you this message.\nExplore My Commands🙃."
 @register(pattern="^/start$")
 async def start(event):
 
