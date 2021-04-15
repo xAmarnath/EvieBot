@@ -128,6 +128,7 @@ async def multibutton(event):
 
 
 async def math(event):
+  buttons = None
   user_id = event.user_id
   chats = captcha.find({})
   for c in chats:
@@ -140,6 +141,35 @@ async def math(event):
     pass
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
+     if "|" in cws.custom_welcome_message:
+      try:
+        wlc, options = snip.reply.split("|")
+        wlc = wlc.strip()
+        kb = options.strip()
+        if "•" in button:
+           mbutton = button.split("•")
+           lbutton = []
+           for i in mbutton:
+             params = re.findall(r"\'(.*?)\'", i) or re.findall(
+                          r"\"(.*?)\"", i
+                          )
+             lbutton.append(params)
+        longbutton = []
+        for c in lbutton:
+           butto = [Button.url(*c)]
+           longbutton.append(butto)
+           buttons += longbutton
+        else:
+           params = re.findall(r"\'(.*?)\'", button) or re.findall(
+           r"\"(.*?)\"", button
+                 )
+           butto = [Button.url(*params)]
+           buttons += butto
+      except BaseException:
+            wlc = wlc.strip()
+            butto = None
+     else:
+       wlc = cws.custom_welcome_message
      a_user = await event.get_user()
      title = event.chat.title
      mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -150,8 +180,7 @@ async def math(event):
      else:
          fullname = first
      userid = a_user.id
-     current_saved_welcome_message = cws.custom_welcome_message
-     text = current_saved_welcome_message.format(
+     text = wlc.format(
                                 mention=mention,
                                 title=title,
                                 first=first,
@@ -162,7 +191,7 @@ async def math(event):
      text += "\n\n**Captcha Verification**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
+  buttons += Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if time:
