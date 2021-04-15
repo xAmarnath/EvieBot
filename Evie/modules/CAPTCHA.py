@@ -807,7 +807,7 @@ async def t(event):
     )
   await event.reply(f"Successfully set captchamode to **{type}**.")
 
-@tbot.on(events.NewMessage(pattern="^[!/]captcha ?(*.)"))
+@tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
  pro = ["on", "enable", "yes"]
  arg = event.pattern_match.group(1)
