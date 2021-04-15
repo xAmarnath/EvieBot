@@ -192,7 +192,8 @@ async def math(event):
      text += "\n\n**Captcha Verification**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  await event.reply(text, buttons=buttons + butt)
+  await event.reply(f"{butt}")
+  await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if time:
    if not time == 0:
