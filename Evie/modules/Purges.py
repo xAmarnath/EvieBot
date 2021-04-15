@@ -61,7 +61,7 @@ async def mm(event):
  for c in chats:
   if event.chat_id == c["id"]:
     to_check = get_chat(id=event.chat_id)
-    purge.update_one(
+    pugre.update_one(
            {
               "_id": to_check["_id"],
               "id": to_check["id"],
@@ -70,7 +70,7 @@ async def mm(event):
              {"$set": {"msg_id": msg_id}},
             )
     return await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.")
- purge.insert_one(
+ pugre.insert_one(
         {"id": event.chat_id, "msg_id": msg_id}
     )
  await tbot.send_message(event.chat_id, "Message marked for deletion. Reply to another message with /purgeto to delete all messages in between.")
