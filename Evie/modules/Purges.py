@@ -11,7 +11,7 @@ db = client["evie"]
 pugre = db.purge
 
 def get_chat(id):
-    return purge.find_one({"id": id})
+    return pugre.find_one({"id": id})
 
 @tbot.on(events.NewMessage(pattern="^[!/]purge ?(.*)"))
 async def purge(event):
