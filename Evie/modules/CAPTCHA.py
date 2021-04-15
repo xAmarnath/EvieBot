@@ -45,6 +45,7 @@ async def _(event):
        if event.chat_id == c["id"]:
           type = c["type"]
           time = c["time"]
+  if 
   if type:
    if type == "multibutton":
       return await multibutton(event)
@@ -69,6 +70,12 @@ async def multibutton(event):
   mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
+     wlc = cws.custom_welcome_message
+     if "|" in wlc:
+       wc, options = wlc.split("|")
+       wc = wc.strip()
+     else:
+       wc = wlc
      a_user = await event.get_user()
      title = event.chat.title
      mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -79,7 +86,7 @@ async def multibutton(event):
      else:
          fullname = first
      userid = a_user.id
-     current_saved_welcome_message = cws.custom_welcome_message
+     current_saved_welcome_message = wc
      text = current_saved_welcome_message.format(
                                 mention=mention,
                                 title=title,
@@ -129,8 +136,6 @@ async def multibutton(event):
 
 async def math(event):
   user_id = event.user_id
-  lbutton = []
-  longbutton = []
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
@@ -142,35 +147,12 @@ async def math(event):
     pass
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
-     if "|" in cws.custom_welcome_message:
-      try:
-        wlc, options = cws.custom_welcome_message.split("|")
-        wlc = wlc.strip()
-        button = options.strip()
-        if "•" in button:
-           mbutton = button.split("•")
-           for i in mbutton:
-             params = re.findall(r"\'(.*?)\'", i) or re.findall(
-                          r"\"(.*?)\"", i
-                          )
-             lbutton.append(params)
-           for c in lbutton:
-              butto = [Button.url(*c)]
-              longbutton.append(butto)
-           butt = longbutton
-        else:
-           params = re.findall(r"\'(.*?)\'", button) or re.findall(
-           r"\"(.*?)\"", button
-                 )
-           butto = [Button.url(*params)]
-           butt = butto
-      except BaseException as e:
-           print(e)
-           butt = None
-           wlc = cws.custom_welcome_message
+     wlc = cws.custom_welcome_message
+     if "|" in wlc:
+       wc, options = wlc.split("|")
+       wc = wc.strip()
      else:
-       wlc = cws.custom_welcome_message
-       butt = None
+       wc = wlc
      a_user = await event.get_user()
      title = event.chat.title
      mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -181,7 +163,7 @@ async def math(event):
      else:
          fullname = first
      userid = a_user.id
-     text = wlc.format(
+     text = wc.format(
                                 mention=mention,
                                 title=title,
                                 first=first,
@@ -189,11 +171,10 @@ async def math(event):
                                 fullname=fullname,
                                 userid=userid,
                             )
-     text += "\n\n**Captcha Verification**"
+     text += "\n\n**Captcha Verification**🤖"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  keyboard = [
-            Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id)), butt]
+  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))]
   await event.reply(text, buttons=keyboard)
   WELCOME_DELAY_KICK_SEC = time
   if time:
@@ -699,13 +680,15 @@ async def t(event):
                     "id": to_check["id"],
                     "type": to_check["type"],
                     "time": to_check["time"],
+                    "mode": to_check["mode"],
                 },
                 {"$set": {"time": time}},
             )
-          return
+          return await event.reply(f"Updated captcha kick time to **{time}s**")
   captcha.insert_one(
-        {"id": event.chat_id, "type": 'text', "time": time}
+        {"id": event.chat_id, "type": 'text', "time": time, "mode": "on"}
     )
+  await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
  except Exception as e:
   print(e)
             
@@ -794,6 +777,9 @@ async def t(event):
    for c in chats:
       if event.chat_id == c["id"]:
          type = c["type"]
+         time = c["time"]
+   if not time:
+     time = 0
    if type:
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
@@ -811,15 +797,78 @@ async def t(event):
                     "id": to_check["id"],
                     "type": to_check["type"],
                     "time": to_check["time"],
+                    "mode": to_check["mode"],
                 },
-                {"$set": {"type": type}},
+                {"$set": {"type": type}, {"mode": "on"}},
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
   captcha.insert_one(
-        {"id": event.chat_id, "type": type, "time": 0}
+        {"id": event.chat_id, "type": type, "time": time}
     )
   await event.reply(f"Successfully set captchamode to **{type}**.")
+
+@tbot.on(events.NewMessage(pattern="^[!/]captcha ?(*.)"))
+async def ba(event):
+ pro = ["on", "enable", "yes"]
+ arg = event.pattern_match.group(1)
+ chats = captcha.find({})
+ for c in chats:
+      if event.chat_id == c["id"]:
+         mode = c["mode"]
+         type = c["type"]
+         time = c["time"]
+ if not type:
+    type = "button"
+ if not time:
+    time = 0
+ if arg:
+  if arg == "on" or arg == "enable" or arg == "yes":
+   if mode:
+    if mode == "on":
+     return await event.reply("Captcha is already enabled for this chat.")
+    elif mode == "off":
+     to_check = get_chat(id=event.chat_id)
+     captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                    "mode": to_check["mode"],
+                },
+                {"$set: {"mode": "on"}, {"type": type}, {"time": time}},
+            )
+     return await event.reply(f"Captcha is enabled with mode **{type}**")
+   else:
+    captcha.insert_one(
+        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
+    )
+    return await event.reply(f"Successfully enabled captcha mode!")
+  elif arg == "off" or arg == "disable" or arg == "no":
+   if mode:
+    if mode == "off":
+      return await event.reply("captcha is not enabled here in the first place!")
+    elif mode == "on":
+      to_check = get_chat(id=event.chat_id)
+     captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                    "mode": to_check["mode"],
+                },
+                {"$set: {"mode": "off"}, {"type": type}, {"time": time}},
+            )
+     return await event.reply(f"Captcha is successfully disabled")
+   else:
+    captcha.insert_one(
+        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
+    )
+    return await event.reply(f"Successfully disabled captcha mode!")
+
+    
 
 
 
