@@ -78,7 +78,7 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    fed_id = sql.get_fed_id(chat)
+    fed_id = sql.get_fed_id(event.chat_id)
     if fed_id:
       info = sql.get_fed_info(fed_id)
       name = info["fname"]
@@ -101,8 +101,8 @@ async def detail(replied_user, event):
          if user_id == i["user"]:
            caption += "\n\n<b>Globally Banned:</b> Yes"
     return caption
- except Exception:
-        print("lel")
+ except Exception as e:
+        print(e)
 
 
 def get_readable_time(seconds: int) -> str:
