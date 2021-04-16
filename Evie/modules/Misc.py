@@ -84,11 +84,11 @@ async def detail(replied_user, event):
       name = info["fname"]
       fban, reason, fbantime = sql.get_fban_user(fed_id, int(user_id))
       if fban:
-         caption += f"\n\nThis user has been fbanned in the current federation `{name}`."
+         caption += f"\n\nThis user has been\nfbanned in the current fed, `{name}` ."
          if not reason == '':
             caption += f"\nReason: `{reason[:20]}`"
          else:
-            caption += "No reason specified."
+            caption += "\nNo reason specified."
     if is_bio(replied_user.user.id):
          smx = boss[replied_user.user.id]
          caption += f"\n\n<b>What others say:</b>\n{smx}"
