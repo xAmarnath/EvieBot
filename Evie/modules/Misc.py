@@ -82,7 +82,7 @@ async def detail(replied_user, event):
     if fed_id:
       info = sql.get_fed_info(fed_id)
       name = info["fname"]
-      fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(user_id))
+      fban, reason, fbantime = sql.get_fban_user(fed_id, int(user_id))
       if fban:
          caption += f"\n\nThis user has been fbanned in the current federation `{name}`."
          if not reason == '':
