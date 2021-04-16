@@ -9,14 +9,13 @@ from datetime import datetime as stime
 import requests
 import urllib
 from math import ceil
-
 import requests
-import screenshotapi
 
 from telethon import Button, custom, events, functions
 from Evie.events import register
 import random
 from pymongo import MongoClient
+import Evie.modules.sql.feds_sql as sql
 from Evie.modules.sql.karma_sql import get_couple, save_couple
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio
@@ -79,6 +78,17 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
+    fed_id = sql.get_fed_id(chat)
+    if fed_id:
+      info = sql.get_fed_info(fed_id)
+      name = info["fname"]
+      fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(user_id))
+      if fban:
+         caption += f"\n\nThis user has been fbanned in the current federation `{name}`."
+         if not reason == '':
+            caption += f"\nReason: `{reason[:20]}`"
+         else:
+            caption += "No reason specified."
     if is_bio(replied_user.user.id):
          smx = boss[replied_user.user.id]
          caption += f"\n\n<b>What others say:</b>\n{smx}"
